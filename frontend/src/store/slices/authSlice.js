@@ -13,8 +13,17 @@ const authSlice = createSlice({
       state.username = payload.username;
       state.token = payload.token;
     },
+    loggedIn: (state) => {
+      const data = JSON.parse(localStorage.getItem('user'));
+      if (data) {
+        state.username = data.username;
+        state.token = data.token;
+      } else {
+        state = initialState;
+      }
+    },
   },
 });
 
-export const { logIn } = authSlice.actions;
+export const { logIn, loggedIn } = authSlice.actions;
 export default authSlice.reducer;

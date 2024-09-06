@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 import axios from 'axios';
 import { API_ROUTES } from '../routes/routes';
@@ -9,6 +10,7 @@ import { logIn } from '../store/slices/authSlice';
 const LoginForm = () => {
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -20,6 +22,7 @@ const LoginForm = () => {
         const response = await axios.post(API_ROUTES.login, values);
         dispatch(logIn(response.data));
         localStorage.setItem('user', JSON.stringify(response.data));
+        navigate('/');
       } catch (e) {
         setError('Неверные имя пользователя или пароль');
       }
