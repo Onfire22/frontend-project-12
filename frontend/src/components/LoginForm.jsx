@@ -1,11 +1,22 @@
 import { useRef, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
+import axios from 'axios';
+import { API_ROUTES } from '../routes/routes';
+import { logIn } from '../store/slices/authSlice';
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
+    },
+    onSubmit: async (values) => {
+      const response = await axios.post(API_ROUTES.login, values);
+      dispatch(logIn(response.data));
+      localStorage.setItem('user', JSON.stringify(response.data));
     },
   });
 
@@ -16,7 +27,7 @@ const LoginForm = () => {
   }, []);
 
   return (
-    <form className="col-12 col-md-6 mt-3 mt-md-0">
+    <form className="col-12 col-md-6 mt-3 mt-md-0" onSubmit={formik.handleSubmit}>
       <h1 className="text-center mb-4">Войти</h1>
       <div className="form-floating mb-3">
         <input
