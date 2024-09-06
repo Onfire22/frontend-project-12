@@ -11,6 +11,7 @@ const LoginForm = () => {
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const inputRef = useRef(null);
 
   const formik = useFormik({
     initialValues: {
@@ -28,8 +29,6 @@ const LoginForm = () => {
       }
     },
   });
-
-  const inputRef = useRef(null);
 
   const inputClass = cn('form-control', {
     'is-invalid': !!error,

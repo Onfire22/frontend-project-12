@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { ROUTES } from './routes/routes';
 import Login from './pages/Login';
 import Chat from './pages/Chat';
+import RegistrationForm from './components/RegistrationForm';
 import NotFound from './pages/404';
 import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
@@ -20,6 +21,7 @@ const App = () => {
           )}
         />
         <Route path={ROUTES.login} element={<Login />} />
+        <Route path={ROUTES.signup} element={<RegistrationForm />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

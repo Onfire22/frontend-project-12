@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom';
 import LoginForm from '../components/LoginForm';
 import login from '../images/login-image.jpeg';
+import { ROUTES } from '../routes/routes';
 
 const Login = () => {
   return (
@@ -16,7 +18,7 @@ const Login = () => {
             <div className="card-footer p-4">
               <div className="text-center">
                 <span>Нет аккаунта? </span>
-                <a href="/">Регистрация</a>
+                <Link to={ROUTES.signup}>Зарегистрироваться</Link>
               </div>
             </div>
           </div>

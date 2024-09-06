@@ -1,6 +1,9 @@
+import { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 
 const RegistrationForm = () => {
+  const inputRef = useRef(null);
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -8,6 +11,10 @@ const RegistrationForm = () => {
       confirmPassword: '',
     },
   });
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   return (
     <form className="w-50">
@@ -22,6 +29,7 @@ const RegistrationForm = () => {
           id="username"
           value={formik.values.username}
           onChange={formik.handleChange}
+          ref={inputRef}
         />
         <label className="form-label" htmlFor="username">Имя пользователя</label>
       </div>
