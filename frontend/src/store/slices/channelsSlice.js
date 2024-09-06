@@ -38,7 +38,6 @@ const channelsSlice = createSlice({
         state.channels = payload;
       })
       .addCase(fetchChannels.rejected, (state, action) => {
-        console.log(action.error.message);
         state.status = 'failed';
         state.errors = action.error.message;
       });

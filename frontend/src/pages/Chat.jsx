@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchChannels } from '../store/slices/channelsSlice';
+import { fetchMessages } from '../store/slices/messagesSlice';
 import InputForm from '../components/InputForm';
 
 const Chat = () => {
@@ -8,6 +9,8 @@ const Chat = () => {
 
   useEffect(() => {
     dispatch(fetchChannels());
+    dispatch(fetchMessages());
+    // eslint-disable-next-line
   }, []);
 
   return (
