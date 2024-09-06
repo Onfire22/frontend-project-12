@@ -4,6 +4,7 @@ import { fetchChannels } from '../store/slices/channelsSlice';
 import { fetchMessages } from '../store/slices/messagesSlice';
 import InputForm from '../components/InputForm';
 import Channels from '../components/Channels';
+import Messages from '../components/Messages';
 
 const Chat = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const Chat = () => {
               </p>
               <span className="text-muted">0 сообщений</span>
             </div>
-            {/* messages list */}
+            <Messages />
             <div className="mt-auto px-5 py-3">
               <InputForm />
             </div>
