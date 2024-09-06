@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { fetchChannels } from '../store/slices/channelsSlice';
 import { fetchMessages } from '../store/slices/messagesSlice';
 import InputForm from '../components/InputForm';
+import Channels from '../components/Channels';
 
 const Chat = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const Chat = () => {
               </svg>
             </button>
           </div>
-          {/* channels list */}
+          <Channels />
         </div>
         <div className="col p-0 h-100">
           <div className="d-flex flex-column h-100">
