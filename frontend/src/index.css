@@ -9,3 +9,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.feedback {
+  color: rgb(255, 0, 0);
+}

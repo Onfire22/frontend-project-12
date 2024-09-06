@@ -1,11 +1,13 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
+import cn from 'classnames';
 import axios from 'axios';
 import { API_ROUTES } from '../routes/routes';
 import { logIn } from '../store/slices/authSlice';
 
 const LoginForm = () => {
+  const [error, setError] = useState(null);
   const dispatch = useDispatch();
 
   const formik = useFormik({
@@ -14,13 +16,21 @@ const LoginForm = () => {
       password: '',
     },
     onSubmit: async (values) => {
-      const response = await axios.post(API_ROUTES.login, values);
-      dispatch(logIn(response.data));
-      localStorage.setItem('user', JSON.stringify(response.data));
+      try {
+        const response = await axios.post(API_ROUTES.login, values);
+        dispatch(logIn(response.data));
+        localStorage.setItem('user', JSON.stringify(response.data));
+      } catch (e) {
+        setError('Неверные имя пользователя или пароль');
+      }
     },
   });
 
   const inputRef = useRef(null);
+
+  const inputClass = cn('form-control', {
+    'is-invalid': !!error,
+  });
 
   useEffect(() => {
     inputRef.current.focus();
@@ -31,7 +41,7 @@ const LoginForm = () => {
       <h1 className="text-center mb-4">Войти</h1>
       <div className="form-floating mb-3">
         <input
-          className="form-control"
+          className={inputClass}
           placeholder="Ваш ник"
           id="username"
           name="username"
@@ -44,7 +54,7 @@ const LoginForm = () => {
       </div>
       <div className="form-floating mb-4">
         <input
-          className="form-control"
+          className={inputClass}
           placeholder="Ваш ник"
           id="password"
           name="password"
@@ -53,6 +63,7 @@ const LoginForm = () => {
           onChange={formik.handleChange}
         />
         <label className="form-label" htmlFor="password">Пароль</label>
+        {error && <div className="invalid-tooltip">{error}</div>}
       </div>
       <button className="w-100 mb-3 btn btn-outline-primary" type="submit">Войти</button>
     </form>
