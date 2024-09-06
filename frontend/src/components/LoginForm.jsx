@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react';
 import { useFormik } from 'formik';
 
 const LoginForm = () => {
@@ -7,6 +8,12 @@ const LoginForm = () => {
       password: '',
     },
   });
+
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   return (
     <form className="col-12 col-md-6 mt-3 mt-md-0">
@@ -20,6 +27,7 @@ const LoginForm = () => {
           type="text"
           value={formik.values.username}
           onChange={formik.handleChange}
+          ref={inputRef}
         />
         <label className="form-label" htmlFor="username">Ваш ник</label>
       </div>
