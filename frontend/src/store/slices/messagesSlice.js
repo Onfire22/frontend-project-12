@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_ROUTES } from '../../routes/routes';
 
@@ -29,16 +29,11 @@ export const createMessage = createAsyncThunk(
     getState,
   }) => {
     const { token } = getState().auth;
-    const message = {
-      text: payload,
-      id: nanoid(),
-    };
-    const response = await axios.post(API_ROUTES.getMessages, message, {
+    await axios.post(API_ROUTES.getMessages, payload, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response.data;
   },
 );
 
@@ -46,8 +41,7 @@ const messagesSlice = createSlice({
   name: 'messages',
   initialState,
   reducers: {
-    addMessage: (state, { payload }) => {
-      console.log(payload);
+    getMessage: (state, { payload }) => {
       state.messages.push(payload);
     },
   },
@@ -65,16 +59,16 @@ const messagesSlice = createSlice({
       .addCase(fetchMessages.rejected, (state, action) => {
         state.status = 'failed';
         state.errors = action.error.message;
-      })
-      .addCase(createMessage.fulfilled, (state, { payload }) => {
-        state.status = 'idle';
-        state.messages.push(payload);
-      })
-      .addCase(createMessage.rejected, (_, action) => {
-        console.log(action.error.message);
       });
+    // .addCase(createMessage.fulfilled, (state, { payload }) => {
+    //   state.status = 'idle';
+    //   state.messages.push(payload);
+    // })
+    // .addCase(createMessage.rejected, (_, action) => {
+    //   console.log(action.error.message);
+    // });
   },
 });
 
-export const { addMessage } = messagesSlice.actions;
+export const { addMessage, getMessage } = messagesSlice.actions;
 export default messagesSlice.reducer;

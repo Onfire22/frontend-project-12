@@ -2,22 +2,30 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
 import { fetchChannels } from '../store/slices/channelsSlice';
-import { fetchMessages, addMessage } from '../store/slices/messagesSlice';
+import { fetchMessages, getMessage } from '../store/slices/messagesSlice';
 import InputForm from '../components/InputForm';
 import Channels from '../components/Channels';
 import Messages from '../components/Messages';
 
-const socket = io();
+export const socket = io();
 
 const Chat = () => {
   const dispatch = useDispatch();
+
+  const handleMessage = (payload) => {
+    dispatch(getMessage(payload));
+  };
 
   useEffect(() => {
     dispatch(fetchChannels());
     dispatch(fetchMessages());
     socket.on('newMessage', (payload) => {
-      dispatch(addMessage(payload));
+      console.log('socket', payload);
+      handleMessage(payload);
     });
+    return () => {
+      socket.off('newMessage', handleMessage);
+    };
     // eslint-disable-next-line
   }, []);
 

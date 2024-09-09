@@ -8,7 +8,7 @@ const InputForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createMessage(text));
+    dispatch(createMessage({ text }));
     setText('');
   };
 
