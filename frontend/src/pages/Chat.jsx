@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
 import { fetchChannels } from '../store/slices/channelsSlice';
-import { fetchMessages, createMessage } from '../store/slices/messagesSlice';
+import { fetchMessages, addMessage } from '../store/slices/messagesSlice';
 import InputForm from '../components/InputForm';
 import Channels from '../components/Channels';
 import Messages from '../components/Messages';
 
-export const socket = io();
+const socket = io();
 
 const Chat = () => {
   const dispatch = useDispatch();
@@ -15,14 +15,11 @@ const Chat = () => {
   useEffect(() => {
     dispatch(fetchChannels());
     dispatch(fetchMessages());
+    socket.on('newMessage', (payload) => {
+      dispatch(addMessage(payload));
+    });
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    socket.on('newMessage', (payload) => {
-      dispatch(createMessage(payload.text));
-    });
-  }, [dispatch]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">

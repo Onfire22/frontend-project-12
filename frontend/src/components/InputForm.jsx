@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createMessage } from '../store/slices/messagesSlice';
-import { socket } from '../pages/Chat';
 
 const InputForm = () => {
   const [text, setText] = useState('');
@@ -11,9 +10,6 @@ const InputForm = () => {
     e.preventDefault();
     dispatch(createMessage(text));
     setText('');
-    socket.emit(text, () => {
-      dispatch(createMessage(text));
-    });
   };
 
   return (

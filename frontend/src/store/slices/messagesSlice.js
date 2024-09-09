@@ -8,7 +8,7 @@ const initialState = {
   errors: null,
 };
 
-const fetchMessages = createAsyncThunk(
+export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
   async (_, {
     getState,
@@ -23,7 +23,7 @@ const fetchMessages = createAsyncThunk(
   },
 );
 
-const createMessage = createAsyncThunk(
+export const createMessage = createAsyncThunk(
   'messages/createMessage',
   async (payload, {
     getState,
@@ -45,6 +45,12 @@ const createMessage = createAsyncThunk(
 const messagesSlice = createSlice({
   name: 'messages',
   initialState,
+  reducers: {
+    addMessage: (state, { payload }) => {
+      console.log(payload);
+      state.messages.push(payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchMessages.pending, (state) => {
@@ -70,5 +76,5 @@ const messagesSlice = createSlice({
   },
 });
 
-export { fetchMessages, createMessage };
+export const { addMessage } = messagesSlice.actions;
 export default messagesSlice.reducer;
