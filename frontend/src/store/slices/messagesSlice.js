@@ -59,14 +59,14 @@ const messagesSlice = createSlice({
       .addCase(fetchMessages.rejected, (state, action) => {
         state.status = 'failed';
         state.errors = action.error.message;
+      })
+      .addCase(createMessage.fulfilled, (state, { payload }) => {
+        state.status = 'idle';
+        state.messages.push(payload);
+      })
+      .addCase(createMessage.rejected, (_, action) => {
+        console.log(action.error.message);
       });
-    // .addCase(createMessage.fulfilled, (state, { payload }) => {
-    //   state.status = 'idle';
-    //   state.messages.push(payload);
-    // })
-    // .addCase(createMessage.rejected, (_, action) => {
-    //   console.log(action.error.message);
-    // });
   },
 });
 

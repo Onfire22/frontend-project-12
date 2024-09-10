@@ -6,6 +6,7 @@ const initialState = {
   channels: [],
   status: 'idle',
   errors: null,
+  activeChannel: '1',
 };
 
 const fetchChannels = createAsyncThunk(
@@ -26,6 +27,11 @@ const fetchChannels = createAsyncThunk(
 const channelsSlice = createSlice({
   name: 'channels',
   initialState,
+  reducers: {
+    setActive: (state, { payload }) => {
+      state.activeChannel = payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchChannels.pending, (state) => {
@@ -45,4 +51,5 @@ const channelsSlice = createSlice({
 });
 
 export { fetchChannels };
+export const { setActive } = channelsSlice.actions;
 export default channelsSlice.reducer;
