@@ -29,7 +29,11 @@ export const createMessage = createAsyncThunk(
     getState,
   }) => {
     const { token } = getState().auth;
-    await axios.post(API_ROUTES.getMessages, payload, {
+    const message = {
+      text: payload,
+      channelId: getState().channels.activeChannel,
+    };
+    await axios.post(API_ROUTES.getMessages, message, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -60,9 +64,8 @@ const messagesSlice = createSlice({
         state.status = 'failed';
         state.errors = action.error.message;
       })
-      .addCase(createMessage.fulfilled, (state, { payload }) => {
+      .addCase(createMessage.fulfilled, (state) => {
         state.status = 'idle';
-        state.messages.push(payload);
       })
       .addCase(createMessage.rejected, (_, action) => {
         console.log(action.error.message);

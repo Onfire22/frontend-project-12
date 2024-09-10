@@ -2,16 +2,18 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
 import { fetchChannels } from '../store/slices/channelsSlice';
-import { fetchMessages, getMessage } from '../store/slices/messagesSlice';
+import { getMessage } from '../store/slices/messagesSlice';
 import InputForm from '../components/InputForm';
 import Channels from '../components/Channels';
 import Messages from '../components/Messages';
+import filterMessages from '../helpers/filterMessagess';
 
 export const socket = io();
 
 const Chat = () => {
   const dispatch = useDispatch();
-  const messages = useSelector((state) => state.messages.messages);
+  const activeChannel = useSelector((state) => state.channels.activeChannel);
+  const messages = useSelector((state) => filterMessages(activeChannel, state.messages.messages));
 
   const handleMessage = (payload) => {
     dispatch(getMessage(payload));
@@ -19,7 +21,6 @@ const Chat = () => {
 
   useEffect(() => {
     dispatch(fetchChannels());
-    dispatch(fetchMessages());
     socket.on('newMessage', (payload) => {
       handleMessage(payload);
     });

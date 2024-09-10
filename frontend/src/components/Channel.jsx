@@ -10,7 +10,7 @@ const Channel = ({
   const active = useSelector((state) => state.channels.activeChannel);
 
   const btnClass = cn('w-100', 'rounded-0', 'text-start', 'btn', {
-    'btn-primary': active === id,
+    'btn-secondary': active === id,
   });
 
   return (
