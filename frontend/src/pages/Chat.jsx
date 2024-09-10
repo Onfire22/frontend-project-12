@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
 import { fetchChannels } from '../store/slices/channelsSlice';
 import { fetchMessages, getMessage } from '../store/slices/messagesSlice';
@@ -11,6 +11,7 @@ export const socket = io();
 
 const Chat = () => {
   const dispatch = useDispatch();
+  const messages = useSelector((state) => state.messages.messages);
 
   const handleMessage = (payload) => {
     dispatch(getMessage(payload));
@@ -20,7 +21,6 @@ const Chat = () => {
     dispatch(fetchChannels());
     dispatch(fetchMessages());
     socket.on('newMessage', (payload) => {
-      console.log('socket', payload);
       handleMessage(payload);
     });
     return () => {
@@ -50,7 +50,7 @@ const Chat = () => {
               <p className="m-0">
                 <b># general</b>
               </p>
-              <span className="text-muted">0 сообщений</span>
+              <span className="text-muted">{`${messages.length} сообщений`}</span>
             </div>
             <Messages />
             <div className="mt-auto px-5 py-3">
