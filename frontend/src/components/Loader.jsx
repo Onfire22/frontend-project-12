@@ -1,12 +1,12 @@
 import Spinner from 'react-bootstrap/Spinner';
 
-const MessagesSpinner = () => {
+const Loader = ({ text }) => {
   return (
     <div className="h-100 d-flex flex-column align-items-center justify-content-center">
-      <p>Загрузка сообщений...</p>
+      <p>{`Загрузка ${text}...`}</p>
       <Spinner animation="border" variant="primary" />
     </div>
   );
 };
 
-export default MessagesSpinner;
+export default Loader;

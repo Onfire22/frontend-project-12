@@ -2,12 +2,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import Message from './Message';
 import { fetchMessages } from '../store/slices/messagesSlice';
-import MessagesSpinner from './MessagesSpinner';
+import Loader from './Loader';
 import filterMessages from '../helpers/filterMessagess';
 
 const Messages = () => {
   const dispatch = useDispatch();
   const activeChannel = useSelector((state) => state.channels.activeChannel);
+  const status = useSelector((state) => state.messages.status);
   const messages = useSelector((state) => filterMessages(activeChannel, state.messages.messages));
 
   useEffect(() => {
@@ -16,8 +17,8 @@ const Messages = () => {
   }, []);
 
   return (
-    messages.status === 'pending'
-      ? <MessagesSpinner />
+    status === 'pending'
+      ? <Loader text="сообщений" />
       : (
         <div className="chat-messages overflow-auto px-5" id="messages-box">
           {!!messages.length && messages.map((message) => {
