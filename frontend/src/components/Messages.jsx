@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import Message from './Message';
 import { fetchMessages } from '../store/slices/messagesSlice';
 import Loader from './Loader';
-import filterMessages from '../helpers/filterMessagess';
+import filterMessages from '../helpers/filterMessages';
 
 const Messages = () => {
   const dispatch = useDispatch();

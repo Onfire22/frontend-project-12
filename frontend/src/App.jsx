@@ -9,7 +9,7 @@ import PrivateRoute from './components/PrivateRoute';
 
 const App = () => {
   return (
-    <>
+    <div className="d-flex flex-column h-100">
       <Header />
       <Routes>
         <Route
@@ -24,7 +24,7 @@ const App = () => {
         <Route path={ROUTES.signup} element={<RegistrationForm />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </>
+    </div>
   );
 };
 
