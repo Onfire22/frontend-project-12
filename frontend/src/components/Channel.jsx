@@ -1,41 +1,34 @@
-import cn from 'classnames';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Dropdown from 'react-bootstrap/Dropdown';
 import { setActive } from '../store/slices/channelsSlice';
 
-const Channel = ({ name, removable }) => {
+const Channel = ({ name }) => {
   const dispatch = useDispatch();
   const active = useSelector((state) => state.channels.activeChannel);
 
-  const btnActiveClass = cn('w-100', 'rounded-0', 'text-start', 'btn', {
-    'btn-secondary': active === name,
-  });
-
-  const btnEditClass = cn('flex-grow-0', 'dropdown-toggle', 'dropdown-toggle-split', 'btn', {
-    'btn-secondary': active === name,
-  });
-
   return (
     <li className="nav-item w-100">
-      <div className="d-flex dropdown btn-group" role="group">
-        <button className={btnActiveClass} type="button" onClick={() => dispatch(setActive(name))}>
-          <span className="me-1">#</span>
+      <Dropdown className="d-flex" as={ButtonGroup}>
+        <Button
+          className="w-100 rounded-0 text-start text-truncate"
+          variant={active === name ? 'secondary' : 'light'}
+          type="button"
+          onClick={() => dispatch(setActive(name))}
+        >
           {name}
-        </button>
-        {
-          removable && (
-          <button
-            className={btnEditClass}
-            type="button"
-            id="react-aria2952926309-:r0:"
-            aria-expanded="false"
-          >
-            <span className="visually-hidden">
-              Управление каналом
-            </span>
-          </button>
-          )
-        }
-      </div>
+        </Button>
+        <Dropdown.Toggle
+          split
+          variant={active === name ? 'secondary' : 'light'}
+          id="dropdown-split-basic"
+        />
+        <Dropdown.Menu>
+          <Dropdown.Item href="#/action-1">Удалить</Dropdown.Item>
+          <Dropdown.Item href="#/action-2">Переименовать</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
     </li>
   );
 };
