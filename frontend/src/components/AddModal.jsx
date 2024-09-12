@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { createChannel } from '../store/slices/channelsSlice';
+import { createChannel, setActive } from '../store/slices/channelsSlice';
 
 const AddModal = ({ show, toggleModal }) => {
   const dispatch = useDispatch();
@@ -14,6 +14,7 @@ const AddModal = ({ show, toggleModal }) => {
     onSubmit: (values) => {
       dispatch(createChannel(values.name));
       dispatch(toggleModal());
+      dispatch(setActive(values.name));
     },
   });
 
