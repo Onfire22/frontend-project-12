@@ -13,14 +13,19 @@ const fetchChannels = createAsyncThunk(
   'channels/fetchAll',
   async (_, {
     getState,
+    rejectWithValue,
   }) => {
-    const { token } = getState().auth;
-    const response = await axios.get(API_ROUTES.getChannels, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
+    try {
+      const { token } = getState().auth;
+      const response = await axios.get(API_ROUTES.getChannels, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (e) {
+      return rejectWithValue('Не удалось загрузить каналы');
+    }
   },
 );
 
@@ -42,6 +47,38 @@ const createChannel = createAsyncThunk(
   },
 );
 
+const renameChannel = createAsyncThunk(
+  'channels/renameChannel',
+  async (payload, {
+    getState,
+  }) => {
+    const { token } = getState().auth;
+    const newChannel = {
+      name: payload.name,
+    };
+    await axios.patch(API_ROUTES.renameChannel(payload.id), newChannel, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  },
+);
+
+const removeChannel = createAsyncThunk(
+  'channels/removeChannel',
+  async (payload, {
+    getState,
+  }) => {
+    const { token } = getState().auth;
+    const response = await axios.delete(API_ROUTES.removeChannel(payload), {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  },
+);
+
 const channelsSlice = createSlice({
   name: 'channels',
   initialState,
@@ -52,27 +89,43 @@ const channelsSlice = createSlice({
     getChannel: (state, { payload }) => {
       state.channels.push(payload);
     },
+    handleRenameChannel: (state, { payload }) => {
+      const newChannels = state.channels.map((channel) => {
+        if (payload.id === channel.id) {
+          return {
+            ...channel,
+            name: payload.name,
+          };
+        }
+        return channel;
+      });
+      state.channels = newChannels;
+    },
+    handleDeleteChannel: (state, { payload }) => {
+      state.channels = state.channels.filter((channel) => channel.id !== payload.id);
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchChannels.pending, (state) => {
-        state.status = 'pending';
-        state.errors = null;
-      })
       .addCase(fetchChannels.fulfilled, (state, { payload }) => {
-        state.status = 'idle';
         state.errors = null;
         state.channels = payload;
-      })
-      .addCase(fetchChannels.rejected, (state, action) => {
-        state.status = 'failed';
-        state.errors = action.error.message;
       })
       .addCase(createChannel.fulfilled, (state) => {
         state.status = 'idle';
       })
-      .addCase(createChannel.rejected, (_state, action) => {
-        console.log(action.error.message);
+      .addCase(fetchChannels.pending, (state) => {
+        state.status = 'pending';
+        state.errors = null;
+      })
+      .addCase(renameChannel.fulfilled)
+      .addCase(removeChannel.fulfilled)
+      .addMatcher((action) => action.type.endsWith('/rejected'), (state, action) => {
+        state.status = 'failed';
+        state.errors = action.payload || action.error.message;
+      })
+      .addMatcher((action) => action.type.endsWith('/fulfilled'), (state) => {
+        state.status = 'idle';
       });
   },
 });

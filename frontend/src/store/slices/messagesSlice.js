@@ -12,14 +12,19 @@ export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
   async (_, {
     getState,
+    rejectWithValue,
   }) => {
-    const { token } = getState().auth;
-    const response = await axios.get(API_ROUTES.getMessages, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
+    try {
+      const { token } = getState().auth;
+      const response = await axios.get(API_ROUTES.getMessages, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (e) {
+      return rejectWithValue('Не удалось загрузить сообщения');
+    }
   },
 );
 
@@ -51,24 +56,20 @@ const messagesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchMessages.pending, (state) => {
-        state.errors = null;
-        state.status = 'pending';
-      })
       .addCase(fetchMessages.fulfilled, (state, { payload }) => {
-        state.errors = null;
-        state.status = 'idle';
         state.messages = payload;
       })
-      .addCase(fetchMessages.rejected, (state, action) => {
+      .addCase(fetchMessages.pending, (state) => {
+        state.status = 'pending';
+        state.errors = null;
+      })
+      .addMatcher((action) => action.type.endsWith('/rejected'), (state, action) => {
         state.status = 'failed';
-        state.errors = action.error.message;
+        state.errors = action.payload || action.error.message;
       })
-      .addCase(createMessage.fulfilled, (state) => {
+      .addMatcher((action) => action.type.endsWith('/fulfilled'), (state) => {
+        state.errors = null;
         state.status = 'idle';
-      })
-      .addCase(createMessage.rejected, (_, action) => {
-        console.log(action.error.message);
       });
   },
 });
