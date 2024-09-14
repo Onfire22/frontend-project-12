@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_ROUTES } from '../../routes/routes';
+import { handleDeleteChannel } from './channelsSlice';
 
 const initialState = {
   messages: [],
@@ -62,6 +63,9 @@ const messagesSlice = createSlice({
       .addCase(fetchMessages.pending, (state) => {
         state.status = 'pending';
         state.errors = null;
+      })
+      .addCase(handleDeleteChannel, (state, { payload }) => {
+        state.messages = state.messages.filter((message) => message.id !== payload.id);
       })
       .addMatcher((action) => action.type.endsWith('/rejected'), (state, action) => {
         state.status = 'failed';

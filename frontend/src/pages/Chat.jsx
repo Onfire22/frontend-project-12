@@ -76,8 +76,7 @@ const Chat = () => {
               <div className="bg-light mb-4 p-3 shadow-sm small">
                 <p className="m-0">
                   <b>
-                    #
-                    {name}
+                    {`# ${name}`}
                   </b>
                 </p>
                 <span className="text-muted">{`${messages.length} сообщений`}</span>

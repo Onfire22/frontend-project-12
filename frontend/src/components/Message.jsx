@@ -5,7 +5,8 @@ const Message = ({ text }) => {
 
   return (
     <div className="text-break mb-2">
-      {`${username}: ${text}`}
+      <b>{`${username}: `}</b>
+      {text}
     </div>
   );
 };

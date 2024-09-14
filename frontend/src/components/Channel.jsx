@@ -18,7 +18,7 @@ const Channel = ({ name, id, channel }) => {
           type="button"
           onClick={() => dispatch(setActive(channel))}
         >
-          {name}
+          {`# ${name}`}
         </Button>
         <Dropdown.Toggle
           className="dropdown-btn"
