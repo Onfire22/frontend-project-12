@@ -20,7 +20,7 @@ const LoginForm = () => {
     },
     onSubmit: async (values) => {
       try {
-        const response = await axios.post(API_ROUTES.login, values);
+        const response = await axios.post(API_ROUTES.login(), values);
         dispatch(logIn(response.data));
         localStorage.setItem('user', JSON.stringify(response.data));
         navigate('/');

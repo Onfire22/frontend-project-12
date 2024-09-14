@@ -17,7 +17,7 @@ export const fetchMessages = createAsyncThunk(
   }) => {
     try {
       const { token } = getState().auth;
-      const response = await axios.get(API_ROUTES.getMessages, {
+      const response = await axios.get(API_ROUTES.getMessages(), {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -39,7 +39,7 @@ export const createMessage = createAsyncThunk(
       text: payload,
       channelId: getState().channels.activeChannel.id,
     };
-    await axios.post(API_ROUTES.getMessages, message, {
+    await axios.post(API_ROUTES.getMessages(), message, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

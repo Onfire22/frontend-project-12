@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_ROUTES } from '../../routes/routes';
 
-const initialState = {
+export const initialState = {
   channels: [],
   status: 'idle',
   errors: null,
@@ -21,7 +21,7 @@ export const fetchChannels = createAsyncThunk(
   }) => {
     try {
       const { token } = getState().auth;
-      const response = await axios.get(API_ROUTES.getChannels, {
+      const response = await axios.get(API_ROUTES.getChannels(), {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -43,7 +43,7 @@ export const createChannel = createAsyncThunk(
       name: payload,
       owner: getState().auth.username,
     };
-    await axios.post(API_ROUTES.getChannels, newChannel, {
+    await axios.post(API_ROUTES.getChannels(), newChannel, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

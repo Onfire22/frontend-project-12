@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch } from 'react-redux';
-import { setActive, removeChannel } from '../store/slices/channelsSlice';
+import { setActive, removeChannel, initialState } from '../store/slices/channelsSlice';
 import { closeModal } from '../store/slices/modalsSlice';
 
 const RemoveModal = () => {
@@ -10,11 +10,7 @@ const RemoveModal = () => {
   const handleClick = () => {
     dispatch(removeChannel());
     dispatch(closeModal());
-    dispatch(setActive({
-      id: '1',
-      name: 'general',
-      removable: false,
-    }));
+    dispatch(setActive(initialState.activeChannel));
   };
 
   return (
