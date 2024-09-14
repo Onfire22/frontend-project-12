@@ -5,7 +5,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { setActive } from '../store/slices/channelsSlice';
 import { openModal } from '../store/slices/modalsSlice';
 
-const Channel = ({ name, id, channel }) => {
+const Channel = ({ channel }) => {
+  const { id, name, removable } = channel;
   const dispatch = useDispatch();
   const active = useSelector((state) => state.channels.activeChannel);
 
@@ -20,12 +21,16 @@ const Channel = ({ name, id, channel }) => {
         >
           {`# ${name}`}
         </Button>
-        <Dropdown.Toggle
-          className="dropdown-btn"
-          split
-          variant={active.name === name ? 'secondary' : 'light'}
-          id="dropdown-split-basic"
-        />
+        {
+          removable && (
+            <Dropdown.Toggle
+              className="dropdown-btn"
+              split
+              variant={active.name === name ? 'secondary' : 'light'}
+              id="dropdown-split-basic"
+            />
+          )
+        }
         <Dropdown.Menu>
           <Dropdown.Item onClick={() => dispatch(openModal({ name: 'remove', id }))}>Удалить</Dropdown.Item>
           <Dropdown.Item onClick={() => dispatch(openModal({ name: 'rename', id }))}>Переименовать</Dropdown.Item>
