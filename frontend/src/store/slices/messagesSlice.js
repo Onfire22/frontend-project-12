@@ -36,7 +36,7 @@ export const createMessage = createAsyncThunk(
     const { token } = getState().auth;
     const message = {
       text: payload,
-      channelId: getState().channels.activeChannel,
+      channelId: getState().channels.activeChannel.id,
     };
     await axios.post(API_ROUTES.getMessages, message, {
       headers: {

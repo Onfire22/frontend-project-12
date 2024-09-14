@@ -5,7 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { setActive } from '../store/slices/channelsSlice';
 import { openModal } from '../store/slices/modalsSlice';
 
-const Channel = ({ name, id }) => {
+const Channel = ({ name, id, channel }) => {
   const dispatch = useDispatch();
   const active = useSelector((state) => state.channels.activeChannel);
 
@@ -14,16 +14,16 @@ const Channel = ({ name, id }) => {
       <Dropdown className="d-flex" as={ButtonGroup}>
         <Button
           className="w-100 rounded-0 text-start text-truncate channel-btn"
-          variant={active === name ? 'secondary' : 'light'}
+          variant={active.name === name ? 'secondary' : 'light'}
           type="button"
-          onClick={() => dispatch(setActive(name))}
+          onClick={() => dispatch(setActive(channel))}
         >
           {name}
         </Button>
         <Dropdown.Toggle
           className="dropdown-btn"
           split
-          variant={active === name ? 'secondary' : 'light'}
+          variant={active.name === name ? 'secondary' : 'light'}
           id="dropdown-split-basic"
         />
         <Dropdown.Menu>

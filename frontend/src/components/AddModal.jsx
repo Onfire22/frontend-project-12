@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { createChannel, setActive } from '../store/slices/channelsSlice';
+import { createChannel } from '../store/slices/channelsSlice';
 import { closeModal } from '../store/slices/modalsSlice';
 
 const AddModal = () => {
@@ -33,7 +33,6 @@ const AddModal = () => {
         .then(() => {
           dispatch(createChannel(values.name));
           dispatch(closeModal());
-          dispatch(setActive(values.name));
         })
         .catch((e) => {
           formik.errors.name = e.message;

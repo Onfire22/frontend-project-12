@@ -6,7 +6,11 @@ const initialState = {
   channels: [],
   status: 'idle',
   errors: null,
-  activeChannel: 'general',
+  activeChannel: {
+    id: '1',
+    name: 'general',
+    removable: false,
+  },
 };
 
 const fetchChannels = createAsyncThunk(

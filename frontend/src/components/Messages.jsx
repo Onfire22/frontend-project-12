@@ -7,9 +7,9 @@ import filterMessages from '../helpers/filterMessages';
 
 const Messages = () => {
   const dispatch = useDispatch();
-  const activeChannel = useSelector((state) => state.channels.activeChannel);
+  const { id } = useSelector((state) => state.channels.activeChannel);
   const status = useSelector((state) => state.messages.status);
-  const messages = useSelector((state) => filterMessages(activeChannel, state.messages.messages));
+  const messages = useSelector((state) => filterMessages(id, state.messages.messages));
 
   useEffect(() => {
     dispatch(fetchMessages());

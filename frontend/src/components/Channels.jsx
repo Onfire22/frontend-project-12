@@ -10,12 +10,13 @@ const Channels = () => {
       ? <Loader text="каналов" />
       : (
         <ul className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block" id="channels-box">
-          {!!channels.channels.length && channels.channels.map(({ id, name }) => {
+          {!!channels.channels.length && channels.channels.map((channel) => {
             return (
               <Channel
-                key={id}
-                name={name}
-                id={id}
+                key={channel.id}
+                name={channel.name}
+                id={channel.id}
+                channel={channel}
               />
             );
           })}

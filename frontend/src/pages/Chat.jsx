@@ -1,7 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
-import { fetchChannels, getChannel, handleDeleteChannel } from '../store/slices/channelsSlice';
+import {
+  fetchChannels,
+  getChannel,
+  handleDeleteChannel,
+  setActive,
+} from '../store/slices/channelsSlice';
 import { getMessage } from '../store/slices/messagesSlice';
 import { openModal } from '../store/slices/modalsSlice';
 import InputForm from '../components/InputForm';
@@ -14,8 +19,8 @@ export const socket = io();
 
 const Chat = () => {
   const dispatch = useDispatch();
-  const activeChannel = useSelector((state) => state.channels.activeChannel);
-  const messages = useSelector((state) => filterMessages(activeChannel, state.messages.messages));
+  const { name, id } = useSelector((state) => state.channels.activeChannel);
+  const messages = useSelector((state) => filterMessages(id, state.messages.messages));
   const modalName = useSelector((state) => state.modals.name);
 
   const handleMessage = (payload) => {
@@ -23,6 +28,7 @@ const Chat = () => {
   };
 
   const handleChannel = (payload) => {
+    dispatch(setActive(payload));
     dispatch(getChannel(payload));
   };
 
@@ -71,7 +77,7 @@ const Chat = () => {
                 <p className="m-0">
                   <b>
                     #
-                    {activeChannel}
+                    {name}
                   </b>
                 </p>
                 <span className="text-muted">{`${messages.length} сообщений`}</span>

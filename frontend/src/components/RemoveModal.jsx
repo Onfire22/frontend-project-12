@@ -10,7 +10,11 @@ const RemoveModal = () => {
   const handleClick = () => {
     dispatch(removeChannel());
     dispatch(closeModal());
-    dispatch(setActive('general'));
+    dispatch(setActive({
+      id: '1',
+      name: 'general',
+      removable: false,
+    }));
   };
 
   return (
