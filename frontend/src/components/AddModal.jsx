@@ -1,15 +1,18 @@
 import * as yup from 'yup';
 import cn from 'classnames';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { createChannel, setActive } from '../store/slices/channelsSlice';
+import { closeModal } from '../store/slices/modalsSlice';
 
-const AddModal = ({ show, toggleModal }) => {
+const AddModal = () => {
   const channels = useSelector((state) => state.channels.channels);
   const dispatch = useDispatch();
+  const inputRef = useRef(null);
 
   const schema = yup.object().shape({
     name: yup
@@ -29,7 +32,7 @@ const AddModal = ({ show, toggleModal }) => {
       schema.validate(values)
         .then(() => {
           dispatch(createChannel(values.name));
-          dispatch(toggleModal());
+          dispatch(closeModal());
           dispatch(setActive(values.name));
         })
         .catch((e) => {
@@ -42,8 +45,12 @@ const AddModal = ({ show, toggleModal }) => {
     'form-control is-invalid': formik.errors.name,
   });
 
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
   return (
-    <Modal centered show={show} onHide>
+    <Modal centered show="true" onHide={() => dispatch(closeModal())}>
       <Modal.Header closeButton>
         <Modal.Title>Добавить канал</Modal.Title>
       </Modal.Header>
@@ -54,6 +61,7 @@ const AddModal = ({ show, toggleModal }) => {
               className={inputClasses}
               type="text"
               name="name"
+              ref={inputRef}
               value={formik.values.text}
               onChange={formik.handleChange}
             />

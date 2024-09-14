@@ -13,3 +13,8 @@
 .feedback {
   color: rgb(255, 0, 0);
 }
+
+.btn-light:hover + .dropdown-btn {
+  background-color: #d3d4d5 !important;
+  border-color: #c6c7c8 !important;
+}

@@ -1,14 +1,14 @@
 import * as yup from 'yup';
 import cn from 'classnames';
 import { useFormik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
 const RenameModal = () => {
   const channels = useSelector((state) => state.channels.channels);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const schema = yup.object().shape({
     name: yup
@@ -27,9 +27,9 @@ const RenameModal = () => {
     onSubmit: (values) => {
       schema.validate(values)
         .then(() => {
-          dispatch(createChannel(values.name));
-          dispatch(toggleModal());
-          dispatch(setActive(values.name));
+          // dispatch(createChannel(values.name));
+          // dispatch(toggleModal());
+          // dispatch(setActive(values.name));
         })
         .catch((e) => {
           formik.errors.name = e.message;
@@ -42,7 +42,7 @@ const RenameModal = () => {
   });
 
   return (
-    <Modal centered show={show} onHide>
+    <Modal centered show="true" onHide>
       <Modal.Header closeButton>
         <Modal.Title>Переименовать канал</Modal.Title>
       </Modal.Header>

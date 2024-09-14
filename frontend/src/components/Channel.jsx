@@ -3,8 +3,9 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { setActive } from '../store/slices/channelsSlice';
+import { openModal } from '../store/slices/modalsSlice';
 
-const Channel = ({ name }) => {
+const Channel = ({ name, id }) => {
   const dispatch = useDispatch();
   const active = useSelector((state) => state.channels.activeChannel);
 
@@ -12,7 +13,7 @@ const Channel = ({ name }) => {
     <li className="nav-item w-100">
       <Dropdown className="d-flex" as={ButtonGroup}>
         <Button
-          className="w-100 rounded-0 text-start text-truncate"
+          className="w-100 rounded-0 text-start text-truncate channel-btn"
           variant={active === name ? 'secondary' : 'light'}
           type="button"
           onClick={() => dispatch(setActive(name))}
@@ -20,13 +21,14 @@ const Channel = ({ name }) => {
           {name}
         </Button>
         <Dropdown.Toggle
+          className="dropdown-btn"
           split
           variant={active === name ? 'secondary' : 'light'}
           id="dropdown-split-basic"
         />
         <Dropdown.Menu>
-          <Dropdown.Item href="#/action-1">Удалить</Dropdown.Item>
-          <Dropdown.Item href="#/action-2">Переименовать</Dropdown.Item>
+          <Dropdown.Item onClick={() => dispatch(openModal({ name: 'remove', id }))}>Удалить</Dropdown.Item>
+          <Dropdown.Item onClick={() => dispatch(openModal({ name: 'rename', id }))}>Переименовать</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     </li>

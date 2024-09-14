@@ -24,7 +24,7 @@ const fetchChannels = createAsyncThunk(
       });
       return response.data;
     } catch (e) {
-      return rejectWithValue('Не удалось загрузить каналы');
+      return rejectWithValue('Неудалось загрузить каналы');
     }
   },
 );
@@ -66,16 +66,16 @@ const renameChannel = createAsyncThunk(
 
 const removeChannel = createAsyncThunk(
   'channels/removeChannel',
-  async (payload, {
+  async (_, {
     getState,
   }) => {
     const { token } = getState().auth;
-    const response = await axios.delete(API_ROUTES.removeChannel(payload), {
+    const { activeChannel } = getState().modals;
+    await axios.delete(API_ROUTES.removeChannel(activeChannel), {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response.data;
   },
 );
 
@@ -130,6 +130,6 @@ const channelsSlice = createSlice({
   },
 });
 
-export { fetchChannels, createChannel };
-export const { setActive, getChannel } = channelsSlice.actions;
+export { fetchChannels, createChannel, removeChannel };
+export const { setActive, getChannel, handleDeleteChannel } = channelsSlice.actions;
 export default channelsSlice.reducer;

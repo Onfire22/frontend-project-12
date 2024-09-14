@@ -2,8 +2,8 @@ const API_ROUTES = {
   login: '/api/v1/login',
   signup: '/api/v1/signup',
   getChannels: '/api/v1/channels',
-  renameChannel: (id) => `/api/v1/channels/:${id}`,
-  removeChannel: (id) => `/api/v1/channels/:${id}`,
+  renameChannel: (id) => `/api/v1/channels/${id}`,
+  removeChannel: (id) => `/api/v1/channels/${id}`,
   getMessages: '/api/v1/messages',
 };
 
