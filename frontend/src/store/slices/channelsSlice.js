@@ -13,7 +13,7 @@ const initialState = {
   },
 };
 
-const fetchChannels = createAsyncThunk(
+export const fetchChannels = createAsyncThunk(
   'channels/fetchAll',
   async (_, {
     getState,
@@ -33,7 +33,7 @@ const fetchChannels = createAsyncThunk(
   },
 );
 
-const createChannel = createAsyncThunk(
+export const createChannel = createAsyncThunk(
   'channels/createChannel',
   async (payload, {
     getState,
@@ -51,16 +51,17 @@ const createChannel = createAsyncThunk(
   },
 );
 
-const renameChannel = createAsyncThunk(
+export const renameChannel = createAsyncThunk(
   'channels/renameChannel',
   async (payload, {
     getState,
   }) => {
     const { token } = getState().auth;
+    const { activeChannel } = getState().modals;
     const newChannel = {
-      name: payload.name,
+      name: payload,
     };
-    await axios.patch(API_ROUTES.renameChannel(payload.id), newChannel, {
+    await axios.patch(API_ROUTES.renameChannel(activeChannel), newChannel, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -68,7 +69,7 @@ const renameChannel = createAsyncThunk(
   },
 );
 
-const removeChannel = createAsyncThunk(
+export const removeChannel = createAsyncThunk(
   'channels/removeChannel',
   async (_, {
     getState,
@@ -134,6 +135,10 @@ const channelsSlice = createSlice({
   },
 });
 
-export { fetchChannels, createChannel, removeChannel };
-export const { setActive, getChannel, handleDeleteChannel } = channelsSlice.actions;
+export const {
+  setActive,
+  getChannel,
+  handleDeleteChannel,
+  handleRenameChannel,
+} = channelsSlice.actions;
 export default channelsSlice.reducer;

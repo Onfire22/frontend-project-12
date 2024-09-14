@@ -5,6 +5,7 @@ import {
   fetchChannels,
   getChannel,
   handleDeleteChannel,
+  handleRenameChannel,
   setActive,
 } from '../store/slices/channelsSlice';
 import { getMessage } from '../store/slices/messagesSlice';
@@ -36,6 +37,10 @@ const Chat = () => {
     dispatch(handleDeleteChannel(payload));
   };
 
+  const handleRename = (payload) => {
+    dispatch(handleRenameChannel(payload));
+  };
+
   useEffect(() => {
     dispatch(fetchChannels());
     socket.on('newMessage', (payload) => {
@@ -46,6 +51,9 @@ const Chat = () => {
     });
     socket.on('removeChannel', (payload) => {
       handleDelete(payload);
+    });
+    socket.on('renameChannel', (payload) => {
+      handleRename(payload);
     });
     return () => {
       socket.off('newMessage', handleMessage);

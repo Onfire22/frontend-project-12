@@ -14,8 +14,6 @@ const Channels = () => {
             return (
               <Channel
                 key={channel.id}
-                name={channel.name}
-                id={channel.id}
                 channel={channel}
               />
             );

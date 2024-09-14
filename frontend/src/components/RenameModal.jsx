@@ -1,14 +1,16 @@
 import * as yup from 'yup';
 import cn from 'classnames';
 import { useFormik } from 'formik';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import { renameChannel } from '../store/slices/channelsSlice';
+import { closeModal } from '../store/slices/modalsSlice';
 
 const RenameModal = () => {
   const channels = useSelector((state) => state.channels.channels);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const schema = yup.object().shape({
     name: yup
@@ -27,9 +29,8 @@ const RenameModal = () => {
     onSubmit: (values) => {
       schema.validate(values)
         .then(() => {
-          // dispatch(createChannel(values.name));
-          // dispatch(toggleModal());
-          // dispatch(setActive(values.name));
+          dispatch(renameChannel(values.name));
+          dispatch(closeModal());
         })
         .catch((e) => {
           formik.errors.name = e.message;
@@ -42,7 +43,7 @@ const RenameModal = () => {
   });
 
   return (
-    <Modal centered show="true" onHide>
+    <Modal centered show="true" onHide={() => dispatch(closeModal())}>
       <Modal.Header closeButton>
         <Modal.Title>Переименовать канал</Modal.Title>
       </Modal.Header>
@@ -60,7 +61,7 @@ const RenameModal = () => {
             <div className="invalid-feedback">{formik.errors.name}</div>
           </Form.Group>
           <div className="d-flex justify-content-end">
-            <Button className="me-2 btn-secondary" type="button">Отменить</Button>
+            <Button className="me-2 btn-secondary" type="button" onClick={() => dispatch(closeModal())}>Отменить</Button>
             <Button type="submit">Отправить</Button>
           </div>
         </Form>
