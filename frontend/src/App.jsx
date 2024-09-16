@@ -1,3 +1,4 @@
+import { ToastContainer } from 'react-toastify';
 import { Routes, Route } from 'react-router-dom';
 import { ROUTES } from './routes/routes';
 import Login from './pages/Login';
@@ -24,6 +25,7 @@ const App = () => {
         <Route path={ROUTES.signup} element={<Signup />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <ToastContainer />
     </div>
   );
 };

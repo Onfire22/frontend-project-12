@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -38,6 +39,7 @@ const AddModal = () => {
         .then(() => {
           dispatch(createChannel(censured));
           dispatch(closeModal());
+          toast.success(t('channelsHandlers.channelAdded'));
         })
         .catch((e) => {
           formik.errors.name = e.message;

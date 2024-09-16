@@ -1,4 +1,5 @@
 @import url('bootstrap/dist/css/bootstrap.min.css');
+@import url('react-toastify/dist/ReactToastify.css');
 
 .page {
   margin: 0;

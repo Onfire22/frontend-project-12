@@ -4,6 +4,7 @@ import cn from 'classnames';
 import { useFormik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -36,6 +37,7 @@ const RenameModal = () => {
         .then(() => {
           dispatch(renameChannel(censured));
           dispatch(closeModal());
+          toast.success(t('channelsHandlers.channelRenamed'));
         })
         .catch((e) => {
           formik.errors.name = e.message;
