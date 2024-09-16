@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -13,13 +14,14 @@ const AddModal = () => {
   const channels = useSelector((state) => state.channels.channels);
   const dispatch = useDispatch();
   const inputRef = useRef(null);
+  const { t } = useTranslation();
 
   const schema = yup.object().shape({
     name: yup
       .string()
-      .required('Обязательное поле')
-      .min(2, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов')
+      .required(t('errors.required'))
+      .min(2, t('errors.username'))
+      .max(20, t('errors.username'))
       .notOneOf(channels, 'Должно быть уникальным'),
   });
 
@@ -69,7 +71,7 @@ const AddModal = () => {
           </Form.Group>
           <div className="d-flex justify-content-end">
             <Button className="me-2 btn-secondary" type="button" onClick={() => dispatch(closeModal())}>Отменить</Button>
-            <Button type="submit">Отправить</Button>
+            <Button type="submit">{t('buttons.send')}</Button>
           </div>
         </Form>
       </Modal.Body>

@@ -2,6 +2,7 @@ import * as yup from 'yup';
 import cn from 'classnames';
 import { useFormik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -11,6 +12,7 @@ import { closeModal } from '../store/slices/modalsSlice';
 const RenameModal = () => {
   const channels = useSelector((state) => state.channels.channels);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const schema = yup.object().shape({
     name: yup
@@ -62,7 +64,7 @@ const RenameModal = () => {
           </Form.Group>
           <div className="d-flex justify-content-end">
             <Button className="me-2 btn-secondary" type="button" onClick={() => dispatch(closeModal())}>Отменить</Button>
-            <Button type="submit">Отправить</Button>
+            <Button type="submit">{t('buttons.send')}</Button>
           </div>
         </Form>
       </Modal.Body>

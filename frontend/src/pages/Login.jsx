@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import LoginForm from '../components/LoginForm';
 import login from '../images/login-image.jpeg';
 import { ROUTES } from '../routes/routes';
 
 const Login = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="container-fluid h-100">
       <div className="row justify-content-center align-content-center h-100">
@@ -18,7 +21,7 @@ const Login = () => {
             <div className="card-footer p-4">
               <div className="text-center">
                 <span>Нет аккаунта? </span>
-                <Link to={ROUTES.signup}>Зарегистрироваться</Link>
+                <Link to={ROUTES.signup}>{t('buttons.signup')}</Link>
               </div>
             </div>
           </div>
