@@ -1,7 +1,7 @@
 import register from '../images/register-image.jpg';
-import RegistrationForm from '../components/RegistrationForm';
+import SignupForm from '../components/SignupForm';
 
-const Registration = () => {
+const Signup = () => {
   return (
     <div className="container-fluid h-100">
       <div className="row justify-content-center align-content-center h-100">
@@ -9,9 +9,9 @@ const Registration = () => {
           <div className="card shadow-sm">
             <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
               <div>
-                <img src={register} alt="registration-image" />
+                <img className="rounded-circle" src={register} alt="registration-image" />
               </div>
-              <RegistrationForm />
+              <SignupForm />
             </div>
           </div>
         </div>
@@ -20,4 +20,4 @@ const Registration = () => {
   );
 };
 
-export default Registration;
+export default Signup;

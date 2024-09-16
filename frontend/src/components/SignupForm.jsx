@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 
-const RegistrationForm = () => {
+const SignupForm = () => {
   const inputRef = useRef(null);
 
   const formik = useFormik({
@@ -64,4 +64,4 @@ const RegistrationForm = () => {
   );
 };
 
-export default RegistrationForm;
+export default SignupForm;
