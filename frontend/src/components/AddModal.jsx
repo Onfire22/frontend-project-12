@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 import cn from 'classnames';
+import filter from 'leo-profanity';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
@@ -15,6 +16,7 @@ const AddModal = () => {
   const dispatch = useDispatch();
   const inputRef = useRef(null);
   const { t } = useTranslation();
+  filter.loadDictionary('ru');
 
   const schema = yup.object().shape({
     name: yup
@@ -31,9 +33,10 @@ const AddModal = () => {
     },
     validationSchema: schema,
     onSubmit: (values) => {
+      const censured = filter.clean(values.name);
       schema.validate(values)
         .then(() => {
-          dispatch(createChannel(values.name));
+          dispatch(createChannel(censured));
           dispatch(closeModal());
         })
         .catch((e) => {

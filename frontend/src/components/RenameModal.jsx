@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import filter from 'leo-profanity';
 import cn from 'classnames';
 import { useFormik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,6 +14,7 @@ const RenameModal = () => {
   const channels = useSelector((state) => state.channels.channels);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  filter.loadDictionary('ru');
 
   const schema = yup.object().shape({
     name: yup
@@ -29,9 +31,10 @@ const RenameModal = () => {
     },
     validationSchema: schema,
     onSubmit: (values) => {
+      const censured = filter.clean(values.name);
       schema.validate(values)
         .then(() => {
-          dispatch(renameChannel(values.name));
+          dispatch(renameChannel(censured));
           dispatch(closeModal());
         })
         .catch((e) => {

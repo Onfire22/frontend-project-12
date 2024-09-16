@@ -1,3 +1,4 @@
+import filter from 'leo-profanity';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createMessage } from '../store/slices/messagesSlice';
@@ -5,10 +6,12 @@ import { createMessage } from '../store/slices/messagesSlice';
 const InputForm = () => {
   const [text, setText] = useState('');
   const dispatch = useDispatch();
+  filter.loadDictionary('ru');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createMessage(text));
+    const censured = filter.clean(text);
+    dispatch(createMessage(censured));
     setText('');
   };
 
