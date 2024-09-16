@@ -1,14 +1,45 @@
+import * as yup from 'yup';
 import { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
+import { signUp } from '../store/slices/authSlice';
 
 const SignupForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const inputRef = useRef(null);
+
+  const schema = yup.object().shape({
+    username: yup
+      .string()
+      .required('Обязательное поле')
+      .min(3, 'От 3 до 20 символов')
+      .max(20, 'От 3 до 20 символов'),
+    password: yup
+      .string()
+      .required('Обязательное поле')
+      .min(6, 'Не менее 6 символов'),
+    confirmPassword: yup
+      .string()
+      .required('Обязательное поле')
+      .oneOf([yup.ref('password')], 'Пароли должны совпадать'),
+  });
 
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
       confirmPassword: '',
+    },
+    validationSchema: schema,
+    onSubmit: (values) => {
+      const { username, password } = values;
+      schema.validate(values)
+        .then(() => {
+          dispatch(signUp({ username, password }));
+          navigate('/');
+        });
     },
   });
 
@@ -17,7 +48,7 @@ const SignupForm = () => {
   }, []);
 
   return (
-    <form className="w-50">
+    <form className="w-50" onSubmit={formik.handleSubmit}>
       <h1 className="text-center mb-4">Регистрация</h1>
       <div className="form-floating mb-3">
         <input
@@ -52,6 +83,7 @@ const SignupForm = () => {
           className="form-control"
           type="password"
           name="confirmPassword"
+          placeholder="Пароли должны совпадать"
           required
           id="confirmPassword"
           value={formik.values.confirmPassword}
