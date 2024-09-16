@@ -22,7 +22,7 @@ const Messages = () => {
       : (
         <div className="chat-messages overflow-auto px-5" id="messages-box">
           {!!messages.length && messages.map((message) => {
-            return <Message key={message.id} text={message.text} />;
+            return <Message key={message.id} text={message.text} author={message.author} />;
           })}
         </div>
       )
