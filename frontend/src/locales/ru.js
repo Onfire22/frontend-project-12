@@ -31,6 +31,11 @@ const ru = {
       loginFail: 'Неверные имя пользователя или пароль',
       connectErr: 'Ошибка соединения',
     },
+    messages: {
+      message_one: '{{count}} сообщение',
+      message_few: '{{count}} сообщения',
+      message_many: '{{count}} сообщений',
+    },
   },
 };
 

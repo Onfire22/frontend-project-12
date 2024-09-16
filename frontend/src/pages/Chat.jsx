@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { io } from 'socket.io-client';
 import {
   fetchChannels,
@@ -20,6 +21,7 @@ export const socket = io();
 
 const Chat = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { name, id } = useSelector((state) => state.channels.activeChannel);
   const messages = useSelector((state) => filterMessages(id, state.messages.messages));
   const modalName = useSelector((state) => state.modals.name);
@@ -87,7 +89,7 @@ const Chat = () => {
                     {`# ${name}`}
                   </b>
                 </p>
-                <span className="text-muted">{`${messages.length} сообщений`}</span>
+                <span className="text-muted">{t('messages.message', { count: messages.length })}</span>
               </div>
               <Messages />
               <div className="mt-auto px-5 py-3">
