@@ -97,10 +97,12 @@ const channelsSlice = createSlice({
     handleRenameChannel: (state, { payload }) => {
       const newChannels = state.channels.map((channel) => {
         if (payload.id === channel.id) {
-          return {
+          const newChannel = {
             ...channel,
             name: payload.name,
           };
+          state.activeChannel = newChannel;
+          return newChannel;
         }
         return channel;
       });
