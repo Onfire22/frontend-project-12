@@ -13,7 +13,6 @@ export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
   async (_, {
     getState,
-    rejectWithValue,
   }) => {
     try {
       const { token } = getState().auth;
@@ -24,7 +23,7 @@ export const fetchMessages = createAsyncThunk(
       });
       return response.data;
     } catch (e) {
-      return rejectWithValue('Не удалось загрузить сообщения');
+      return e;
     }
   },
 );
@@ -70,7 +69,7 @@ const messagesSlice = createSlice({
       })
       .addMatcher((action) => action.type.endsWith('/rejected'), (state, action) => {
         state.status = 'failed';
-        state.errors = action.payload || action.error.message;
+        state.errors = action.errors.message;
       })
       .addMatcher((action) => action.type.endsWith('/fulfilled'), (state) => {
         state.errors = null;

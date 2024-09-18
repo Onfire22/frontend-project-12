@@ -17,7 +17,6 @@ export const fetchChannels = createAsyncThunk(
   'channels/fetchAll',
   async (_, {
     getState,
-    rejectWithValue,
   }) => {
     try {
       const { token } = getState().auth;
@@ -28,7 +27,7 @@ export const fetchChannels = createAsyncThunk(
       });
       return response.data;
     } catch (e) {
-      return rejectWithValue('Неудалось загрузить каналы');
+      return e;
     }
   },
 );
@@ -125,11 +124,9 @@ const channelsSlice = createSlice({
         state.status = 'pending';
         state.errors = null;
       })
-      .addCase(renameChannel.fulfilled)
-      .addCase(removeChannel.fulfilled)
       .addMatcher((action) => action.type.endsWith('/rejected'), (state, action) => {
         state.status = 'failed';
-        state.errors = action.payload || action.error.message;
+        state.errors = action.error.message;
       })
       .addMatcher((action) => action.type.endsWith('/fulfilled'), (state) => {
         state.status = 'idle';
