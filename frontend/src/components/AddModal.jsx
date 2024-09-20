@@ -1,4 +1,3 @@
-import * as yup from 'yup';
 import cn from 'classnames';
 import filter from 'leo-profanity';
 import { useEffect, useRef } from 'react';
@@ -11,22 +10,15 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { createChannel, setActive } from '../store/slices/channelsSlice';
 import { closeModal } from '../store/slices/modalsSlice';
+import { useModalValidation } from '../helpers/validateSchemas';
 
 const AddModal = () => {
   const channels = useSelector((state) => state.channels.channels);
   const dispatch = useDispatch();
   const inputRef = useRef(null);
+  const schema = useModalValidation(channels);
   const { t } = useTranslation();
   filter.loadDictionary('ru');
-
-  const schema = yup.object().shape({
-    name: yup
-      .string()
-      .required(t('modals.errors.required'))
-      .min(3, t('modals.errors.nameLength'))
-      .max(20, t('modals.errors.nameLength'))
-      .notOneOf(channels, t('modals.errors.unique')), // refactor
-  });
 
   const formik = useFormik({
     initialValues: {

@@ -1,32 +1,17 @@
-import * as yup from 'yup';
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { signUp } from '../store/slices/authSlice';
+import { useSignUpValidation } from '../helpers/validateSchemas';
 
 const SignupForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const inputRef = useRef(null);
+  const schema = useSignUpValidation();
   const { t } = useTranslation();
-
-  const schema = yup.object().shape({
-    username: yup
-      .string()
-      .required(t('forms.errors.required'))
-      .min(3, t('forms.errors.login'))
-      .max(20, t('forms.errors.login')),
-    password: yup
-      .string()
-      .required(t('forms.errors.required'))
-      .min(6, t('forms.errors.password')),
-    confirmPassword: yup
-      .string()
-      .required(t('forms.errors.required'))
-      .oneOf([yup.ref('password')], t('forms.errors.passwordConfirm')),
-  });
 
   const formik = useFormik({
     initialValues: {
@@ -37,15 +22,18 @@ const SignupForm = () => {
     validationSchema: schema,
     onSubmit: (values) => {
       const { username, password } = values;
-      schema.validate(values)
+      schema.validate(values, { abortEarly: false })
         .then(() => {
           dispatch(signUp({ username, password }));
           navigate('/');
+        })
+        .catch((e) => {
+          formik.errors = e;
         });
     },
   });
 
-  // todo Errors
+  // refactor to Form
 
   useEffect(() => {
     inputRef.current.focus();
@@ -67,6 +55,7 @@ const SignupForm = () => {
           ref={inputRef}
         />
         <label className="form-label" htmlFor="username">{t('forms.signupLogin')}</label>
+        <div className="invalid-feedback">{formik.errors.username}</div>
       </div>
       <div className="form-floating mb-3">
         <input
@@ -81,6 +70,7 @@ const SignupForm = () => {
           onChange={formik.handleChange}
         />
         <label className="form-label" htmlFor="password">{t('forms.password')}</label>
+        <div className="invalid-feedback">{formik.errors.password}</div>
       </div>
       <div className="form-floating mb-4">
         <input
@@ -94,6 +84,7 @@ const SignupForm = () => {
           onChange={formik.handleChange}
         />
         <label className="form-label" htmlFor="confirmPassword">{t('forms.passwordConfirm')}</label>
+        <div className="invalid-feedback">{formik.errors.confirmPassword}</div>
       </div>
       <button className="w-100 btn btn-outline-primary" type="submit">{t('forms.signUp')}</button>
     </form>
