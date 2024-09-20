@@ -32,7 +32,7 @@ const AddModal = () => {
           dispatch(createChannel(censured))
             .then(({ payload }) => dispatch(setActive(payload)));
           dispatch(closeModal());
-          toast.success(t('channelsHandlers.channelAdded'));
+          toast.success(t('toasts.channelAdd'));
         })
         .catch((e) => {
           formik.errors.name = e.message;

@@ -14,7 +14,7 @@ const RemoveModal = () => {
     dispatch(removeChannel());
     dispatch(closeModal());
     dispatch(setActive(initialState.activeChannel));
-    toast.warn(t('channelsHandlers.channelRemoved'));
+    toast.warn(t('toasts.channelRemove'));
   };
 
   return (

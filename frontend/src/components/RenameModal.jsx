@@ -1,4 +1,3 @@
-import * as yup from 'yup';
 import filter from 'leo-profanity';
 import cn from 'classnames';
 import { useFormik } from 'formik';
@@ -8,23 +7,16 @@ import { toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { renameChannel } from '../store/slices/channelsSlice';
+import { renameChannel, setActive } from '../store/slices/channelsSlice';
 import { closeModal } from '../store/slices/modalsSlice';
+import { useModalValidation } from '../helpers/validateSchemas';
 
 const RenameModal = () => {
   const channels = useSelector((state) => state.channels.channels);
   const dispatch = useDispatch();
+  const schema = useModalValidation(channels);
   const { t } = useTranslation();
   filter.loadDictionary('ru');
-
-  const schema = yup.object().shape({
-    name: yup
-      .string()
-      .required(t('modals.errors.required'))
-      .min(3, t('modals.errors.nameLength'))
-      .max(20, t('modals.errors.nameLength'))
-      .notOneOf(channels, t('modals.errors.unique')), // refactor
-  });
 
   const formik = useFormik({
     initialValues: {
@@ -35,9 +27,10 @@ const RenameModal = () => {
       const censured = filter.clean(values.name);
       schema.validate(values)
         .then(() => {
-          dispatch(renameChannel(censured));
+          dispatch(renameChannel(censured))
+            .then(({ payload }) => dispatch(setActive(payload)));
           dispatch(closeModal());
-          toast.success(t('channelsHandlers.channelRenamed'));
+          toast.success(t('toasts.channelRename'));
         })
         .catch((e) => {
           formik.errors.name = e.message;
