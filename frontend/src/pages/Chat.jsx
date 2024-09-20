@@ -7,7 +7,6 @@ import {
   getChannel,
   handleDeleteChannel,
   handleRenameChannel,
-  setActive,
 } from '../store/slices/channelsSlice';
 import { getMessage } from '../store/slices/messagesSlice';
 import { openModal } from '../store/slices/modalsSlice';
@@ -34,7 +33,6 @@ const Chat = () => {
   };
 
   const handleChannel = (payload) => {
-    dispatch(setActive(payload));
     dispatch(getChannel(payload));
   };
 
@@ -64,6 +62,7 @@ const Chat = () => {
       socket.off('newMessage', handleMessage);
       socket.off('newChannel', handleChannel);
       socket.off('removeChannel', handleDelete);
+      socket.off('renameChannel', handleRename);
     };
     // eslint-disable-next-line
   }, []);

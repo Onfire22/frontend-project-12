@@ -42,11 +42,12 @@ export const createChannel = createAsyncThunk(
       name: payload,
       owner: getState().auth.username,
     };
-    await axios.post(API_ROUTES.getChannels(), newChannel, {
+    const response = await axios.post(API_ROUTES.getChannels(), newChannel, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+    return response.data;
   },
 );
 
@@ -60,11 +61,12 @@ export const renameChannel = createAsyncThunk(
     const newChannel = {
       name: payload,
     };
-    await axios.patch(API_ROUTES.renameChannel(activeChannel), newChannel, {
+    const response = await axios.patch(API_ROUTES.renameChannel(activeChannel), newChannel, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+    return response.data;
   },
 );
 
@@ -100,7 +102,6 @@ const channelsSlice = createSlice({
             ...channel,
             name: payload.name,
           };
-          state.activeChannel = newChannel;
           return newChannel;
         }
         return channel;
@@ -109,6 +110,7 @@ const channelsSlice = createSlice({
     },
     handleDeleteChannel: (state, { payload }) => {
       state.channels = state.channels.filter((channel) => channel.id !== payload.id);
+      state.activeChannel = initialState.activeChannel;
     },
   },
   extraReducers: (builder) => {

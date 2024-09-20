@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { createChannel } from '../store/slices/channelsSlice';
+import { createChannel, setActive } from '../store/slices/channelsSlice';
 import { closeModal } from '../store/slices/modalsSlice';
 
 const AddModal = () => {
@@ -37,7 +37,8 @@ const AddModal = () => {
       const censured = filter.clean(values.name);
       schema.validate(values)
         .then(() => {
-          dispatch(createChannel(censured));
+          dispatch(createChannel(censured))
+            .then(({ payload }) => dispatch(setActive(payload)));
           dispatch(closeModal());
           toast.success(t('channelsHandlers.channelAdded'));
         })
