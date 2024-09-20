@@ -20,13 +20,13 @@ const RemoveModal = () => {
   return (
     <Modal centered show="true" onHide={() => dispatch(closeModal())}>
       <Modal.Header closeButton>
-        <Modal.Title>Удалить канал</Modal.Title>
+        <Modal.Title>{t('modals.removeChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p className="lead">Уверены?</p>
+        <p className="lead">{t('modals.confirm')}</p>
         <div className="d-flex justify-content-end">
-          <Button className="me-2 btn-secondary" type="button" onClick={() => dispatch(closeModal())}>Отменить</Button>
-          <Button className="btn-danger" type="button" onClick={() => handleClick()}>Удалить</Button>
+          <Button className="me-2 btn-secondary" type="button" onClick={() => dispatch(closeModal())}>{t('modals.cancel')}</Button>
+          <Button className="btn-danger" type="button" onClick={() => handleClick()}>{t('modals.removeChannel')}</Button>
         </div>
       </Modal.Body>
     </Modal>

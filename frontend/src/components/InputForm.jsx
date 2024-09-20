@@ -1,11 +1,13 @@
 import filter from 'leo-profanity';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { createMessage } from '../store/slices/messagesSlice';
 import sendMessage from '../images/icons/send-message.svg';
 
 const InputForm = () => {
   const [text, setText] = useState('');
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   filter.loadDictionary('ru');
 
@@ -22,7 +24,7 @@ const InputForm = () => {
         <input
           name="body"
           aria-label="Новое сообщение"
-          placeholder="Введите сообщение..."
+          placeholder={t('chat.input')}
           className="border-0 p-0 ps-2 form-control"
           type="text"
           value={text}

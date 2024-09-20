@@ -1,40 +1,58 @@
 const ru = {
   translation: {
-    fields: {
-      username: 'Ваш ник',
+    forms: {
+      loginTitle: 'Войти',
+      login: 'Ваш ник',
       password: 'Пароль',
+      signupTitle: 'Регистрация',
+      signupLogin: 'Имя пользователя',
       passwordConfirm: 'Подтвердите пароль',
-      signupName: 'Имя пользователя',
+      noAcc: 'Нет аккаунта? ',
+      signUp: 'Зарегистрироваться',
+      enterBtn: 'Войти',
+      errors: {
+        wrongData: 'Неверные имя пользователя или пароль',
+        required: 'Обязательное поле',
+        login: 'От 3 до 20 символов',
+        password: 'Не менее 6 символов',
+        passwordConfirm: 'Пароли должны совпадать',
+      },
     },
-    buttons: {
-      enter: 'Войти',
-      signup: 'Зарегистрироваться',
-      send: 'Отправить',
-      channelRename: 'Переименовать',
-      channelRemove: 'Удалить',
+    header: {
+      title: 'Hexlet Chat',
+      logout: 'Выйти',
     },
-    titles: {
-      signup: 'Регистрация',
+    chat: {
+      input: 'Введите сообщение...',
+      channels: 'Каналы',
+      messages: {
+        message_one: '{{count}} сообщение',
+        message_few: '{{count}} сообщения',
+        message_many: '{{count}} сообщений',
+      },
     },
-    channelsHandlers: {
-      channelName: 'Имя канала',
-      channelHandle: 'Управление каналом',
-      channelAdded: 'Канал создан',
-      channelRenamed: 'Канал переименован',
-      channelRemoved: 'Канал удалён',
+    modals: {
+      addChannel: 'Добавить канал',
+      renameChannel: 'Переименовать канал',
+      removeChannel: 'Удалить канал',
+      confirm: 'Уверены?',
+      submit: 'Отправить',
+      cancel: 'Отменить',
+      remove: 'Удалить',
+      rename: 'Переименовать',
+      errors: {
+        required: 'Обязательное поле',
+        nameLength: 'От 3 до 20 символов',
+        unique: 'Должно быть уникальным',
+      },
+    },
+    toasts: {
+      channelRename: 'Канал переименован',
+      channelAdd: 'Канал создан',
+      channelRemove: 'Канал удален',
     },
     errors: {
-      required: 'Обязательное поле',
-      username: 'От 3 до 20 символов',
-      password: 'Не менее 6 символов',
-      passwordConfirm: 'Пароли должны совпадать',
-      loginFail: 'Неверные имя пользователя или пароль',
-      connectErr: 'Ошибка соединения',
-    },
-    messages: {
-      message_one: '{{count}} сообщение',
-      message_few: '{{count}} сообщения',
-      message_many: '{{count}} сообщений',
+      connection: 'Ошибка соединения',
     },
   },
 };

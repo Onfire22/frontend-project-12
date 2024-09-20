@@ -73,7 +73,7 @@ const Chat = () => {
         <div className="row h-100 bg-white flex-md-row">
           <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
             <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-              <b>Каналы</b>
+              <b>{t('chat.channels')}</b>
               <button
                 className="p-0 text-primary btn btn-group-vertical"
                 type="button"
@@ -92,9 +92,9 @@ const Chat = () => {
                     {`# ${name}`}
                   </b>
                 </p>
-                <span className="text-muted">{t('messages.message', { count: messages.length })}</span>
+                <span className="text-muted">{t('chat.messages.message', { count: messages.length })}</span>
               </div>
-              {!messagesError ? <Messages /> : t('errors.connectErr')}
+              {!messagesError ? <Messages /> : t('errors.connection')}
               <div className="mt-auto px-5 py-3">
                 <InputForm />
               </div>

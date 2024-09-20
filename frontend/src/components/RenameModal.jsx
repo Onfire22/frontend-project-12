@@ -20,10 +20,10 @@ const RenameModal = () => {
   const schema = yup.object().shape({
     name: yup
       .string()
-      .required('Обязательное поле')
-      .min(2, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов')
-      .notOneOf(channels, 'Должно быть уникальным'),
+      .required(t('modals.errors.required'))
+      .min(3, t('modals.errors.nameLength'))
+      .max(20, t('modals.errors.nameLength'))
+      .notOneOf(channels, t('modals.errors.unique')), // refactor
   });
 
   const formik = useFormik({
@@ -52,7 +52,7 @@ const RenameModal = () => {
   return (
     <Modal centered show="true" onHide={() => dispatch(closeModal())}>
       <Modal.Header closeButton>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
@@ -68,8 +68,8 @@ const RenameModal = () => {
             <div className="invalid-feedback">{formik.errors.name}</div>
           </Form.Group>
           <div className="d-flex justify-content-end">
-            <Button className="me-2 btn-secondary" type="button" onClick={() => dispatch(closeModal())}>Отменить</Button>
-            <Button type="submit">{t('buttons.send')}</Button>
+            <Button className="me-2 btn-secondary" type="button" onClick={() => dispatch(closeModal())}>{t('modals.cancel')}</Button>
+            <Button type="submit">{t('modals.submit')}</Button>
           </div>
         </Form>
       </Modal.Body>

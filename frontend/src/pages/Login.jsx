@@ -20,8 +20,8 @@ const Login = () => {
             </div>
             <div className="card-footer p-4">
               <div className="text-center">
-                <span>Нет аккаунта? </span>
-                <Link to={ROUTES.signup}>{t('buttons.signup')}</Link>
+                <span>{t('forms.noAcc')}</span>
+                <Link to={ROUTES.signup}>{t('forms.signupTitle')}</Link>
               </div>
             </div>
           </div>
