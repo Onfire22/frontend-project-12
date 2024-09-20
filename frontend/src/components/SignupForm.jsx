@@ -3,6 +3,9 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import { signUp } from '../store/slices/authSlice';
 import { useSignUpValidation } from '../helpers/validateSchemas';
 
@@ -20,6 +23,7 @@ const SignupForm = () => {
       confirmPassword: '',
     },
     validationSchema: schema,
+    validateOnChange: false,
     onSubmit: (values) => {
       const { username, password } = values;
       schema.validate(values, { abortEarly: false })
@@ -33,61 +37,61 @@ const SignupForm = () => {
     },
   });
 
-  // refactor to Form
-
   useEffect(() => {
     inputRef.current.focus();
   }, []);
 
   return (
-    <form className="w-50" onSubmit={formik.handleSubmit}>
+    <Form className="w-50" onSubmit={formik.handleSubmit}>
       <h1 className="text-center mb-4">{t('forms.signupTitle')}</h1>
-      <div className="form-floating mb-3">
-        <input
-          className="form-control"
+      <FloatingLabel className="mb-3" controlId="username" label={t('forms.signupLogin')}>
+        <Form.Control
           type="text"
           placeholder="От 3 до 20 символов"
           name="username"
+          autoComplete="username"
           required
-          id="username"
+          isInvalid={formik.errors.username}
           value={formik.values.username}
           onChange={formik.handleChange}
           ref={inputRef}
         />
-        <label className="form-label" htmlFor="username">{t('forms.signupLogin')}</label>
-        <div className="invalid-feedback">{formik.errors.username}</div>
-      </div>
-      <div className="form-floating mb-3">
-        <input
-          className="form-control"
+        <Form.Control.Feedback type="invalid" tooltip placement="right">{formik.errors.username}</Form.Control.Feedback>
+      </FloatingLabel>
+      <FloatingLabel className="mb-3" controlId="password" label={t('forms.password')}>
+        <Form.Control
           type="password"
           placeholder="Не менее 6 символов"
           name="password"
-          aria-describedby="passwordHelpBlock"
+          autoComplete="password"
           required
-          id="password"
+          isInvalid={formik.errors.password}
           value={formik.values.password}
           onChange={formik.handleChange}
         />
-        <label className="form-label" htmlFor="password">{t('forms.password')}</label>
-        <div className="invalid-feedback">{formik.errors.password}</div>
-      </div>
-      <div className="form-floating mb-4">
-        <input
-          className="form-control"
+        <Form.Control.Feedback type="invalid" tooltip placement="right">{formik.errors.password}</Form.Control.Feedback>
+      </FloatingLabel>
+      <FloatingLabel className="mb-4" controlId="confirmPassword" label={t('forms.passwordConfirm')}>
+        <Form.Control
           type="password"
-          name="confirmPassword"
           placeholder="Пароли должны совпадать"
+          name="confirmPassword"
+          autoComplete="new-password"
           required
-          id="confirmPassword"
+          isInvalid={formik.errors.confirmPassword}
           value={formik.values.confirmPassword}
           onChange={formik.handleChange}
         />
-        <label className="form-label" htmlFor="confirmPassword">{t('forms.passwordConfirm')}</label>
-        <div className="invalid-feedback">{formik.errors.confirmPassword}</div>
-      </div>
-      <button className="w-100 btn btn-outline-primary" type="submit">{t('forms.signUp')}</button>
-    </form>
+        <Form.Control.Feedback type="invalid" tooltip placement="right">{formik.errors.confirmPassword}</Form.Control.Feedback>
+      </FloatingLabel>
+      <Button
+        className="w-100"
+        variant="outline-primary"
+        type="submit"
+      >
+        {t('forms.signUp')}
+      </Button>
+    </Form>
   );
 };
 

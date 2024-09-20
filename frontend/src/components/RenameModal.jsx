@@ -23,6 +23,7 @@ const RenameModal = () => {
       name: '',
     },
     validationSchema: schema,
+    validateOnChange: false,
     onSubmit: (values) => {
       const censured = filter.clean(values.name);
       schema.validate(values)
