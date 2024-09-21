@@ -5,13 +5,14 @@ import { API_ROUTES } from '../../routes/routes';
 const initialState = {
   username: '',
   token: '',
+  error: null,
 };
 
 export const signUp = createAsyncThunk(
   'user/signup',
   async (payload) => {
     const response = await axios.post(API_ROUTES.signup(), payload);
-    console.log(response);
+    console.log(response.data)
     return response.data;
   },
 );
@@ -43,9 +44,9 @@ const authSlice = createSlice({
         state.token = payload.token;
         localStorage.setItem('user', JSON.stringify(payload));
       })
-      .addCase(signUp.pending)
-      .addCase(signUp.rejected, (_, action) => {
+      .addCase(signUp.rejected, (state, action) => {
         console.log(action);
+        state.error = action.error.message;
       });
   },
 });

@@ -26,12 +26,12 @@ const SignupForm = () => {
     validateOnChange: false,
     onSubmit: (values) => {
       const { username, password } = values;
-      schema.validate(values, { abortEarly: false })
+      dispatch(signUp({ username, password }))
         .then(() => {
-          dispatch(signUp({ username, password }));
           navigate('/');
         })
         .catch((e) => {
+          console.log(e);
           formik.errors = e;
         });
     },
