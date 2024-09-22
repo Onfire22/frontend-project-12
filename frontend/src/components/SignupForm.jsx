@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -6,8 +7,9 @@ import { useTranslation } from 'react-i18next';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { signUp } from '../store/slices/authSlice';
 import { useSignUpValidation } from '../helpers/validateSchemas';
+import { API_ROUTES } from '../routes/routes';
+import { logIn } from '../store/slices/authSlice';
 
 const SignupForm = () => {
   const dispatch = useDispatch();
@@ -26,13 +28,18 @@ const SignupForm = () => {
     validateOnChange: false,
     onSubmit: (values) => {
       const { username, password } = values;
-      dispatch(signUp({ username, password }))
-        .then(() => {
+      axios.post(API_ROUTES.signup(), { username, password })
+        .then((data) => {
+          localStorage.setItem('user', JSON.stringify(data));
+          dispatch(logIn());
           navigate('/');
         })
         .catch((e) => {
-          console.log(e);
-          formik.errors = e;
+          if (e.code) {
+            formik.errors.confirmPassword = 'uniq';
+          } else {
+            formik.errors = e;
+          }
         });
     },
   });
