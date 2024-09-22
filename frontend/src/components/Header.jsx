@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { logOut } from '../store/slices/authSlice';
 
 const Header = () => {
@@ -10,7 +11,7 @@ const Header = () => {
   return (
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
-        <a className="navbar-brand" href="/">{t('header.title')}</a>
+        <Link className="navbar-brand" to="/">{t('header.title')}</Link>
         {
           token && <button type="button" className="btn btn-primary" onClick={() => dispatch(logOut())}>{t('header.logout')}</button>
         }
