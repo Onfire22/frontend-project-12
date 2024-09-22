@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { useSignUpValidation } from '../helpers/validateSchemas';
+import { useSignUpValidation } from '../hooks/validateHooks';
 import { API_ROUTES } from '../routes/routes';
 import { logIn } from '../store/slices/authSlice';
 

@@ -10,7 +10,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { createChannel, setActive } from '../store/slices/channelsSlice';
 import { closeModal } from '../store/slices/modalsSlice';
-import { useModalValidation } from '../helpers/validateSchemas';
+import { useModalValidation } from '../hooks/validateHooks';
 
 const AddModal = () => {
   const channels = useSelector((state) => state.channels.channels);
