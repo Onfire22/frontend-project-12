@@ -1,10 +1,9 @@
 const API_ROUTES = {
   login: () => '/api/v1/login',
   signup: () => '/api/v1/signup',
-  getChannels: () => '/api/v1/channels',
-  renameChannel: (id) => `/api/v1/channels/${id}`,
-  removeChannel: (id) => `/api/v1/channels/${id}`,
-  getMessages: () => '/api/v1/messages',
+  channels: () => '/api/v1/channels',
+  handleChannel: (id) => `/api/v1/channels/${id}`,
+  messages: () => '/api/v1/messages',
 };
 
 const ROUTES = {

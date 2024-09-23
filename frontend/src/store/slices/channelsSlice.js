@@ -20,7 +20,7 @@ export const fetchChannels = createAsyncThunk(
   }) => {
     try {
       const { token } = getState().auth;
-      const response = await axios.get(API_ROUTES.getChannels(), {
+      const response = await axios.get(API_ROUTES.channels(), {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -42,7 +42,7 @@ export const createChannel = createAsyncThunk(
       name: payload,
       owner: getState().auth.username,
     };
-    const response = await axios.post(API_ROUTES.getChannels(), newChannel, {
+    const response = await axios.post(API_ROUTES.channels(), newChannel, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -61,7 +61,7 @@ export const renameChannel = createAsyncThunk(
     const newChannel = {
       name: payload,
     };
-    const response = await axios.patch(API_ROUTES.renameChannel(activeChannel), newChannel, {
+    const response = await axios.patch(API_ROUTES.handleChannel(activeChannel), newChannel, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -77,7 +77,7 @@ export const removeChannel = createAsyncThunk(
   }) => {
     const { token } = getState().auth;
     const { activeChannel } = getState().modals;
-    await axios.delete(API_ROUTES.removeChannel(activeChannel), {
+    await axios.delete(API_ROUTES.handleChannel(activeChannel), {
       headers: {
         Authorization: `Bearer ${token}`,
       },
