@@ -3,13 +3,15 @@ import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import cn from 'classnames';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { API_ROUTES } from '../routes/routes';
 import { logIn } from '../store/slices/authSlice';
 
 const LoginForm = () => {
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const inputRef = useRef(null);
@@ -26,13 +28,9 @@ const LoginForm = () => {
         dispatch(logIn(response.data));
         navigate('/');
       } catch (e) {
-        setError('Неверные имя пользователя или пароль');
+        setError(t('forms.errors.wrongData'));
       }
     },
-  });
-
-  const inputClass = cn('form-control', {
-    'is-invalid': !!error,
   });
 
   useEffect(() => {
@@ -40,36 +38,42 @@ const LoginForm = () => {
   }, []);
 
   return (
-    <form className="col-12 col-md-6 mt-3 mt-md-0" onSubmit={formik.handleSubmit}>
+    <Form className="col-12 col-md-6 mt-3 mt-md-0" onSubmit={formik.handleSubmit}>
       <h1 className="text-center mb-4">{t('forms.loginTitle')}</h1>
-      <div className="form-floating mb-3">
-        <input
-          className={inputClass}
-          placeholder={t('forms.login')}
-          id="username"
-          name="username"
+      <FloatingLabel className="mb-3" controlId="username" label={t('forms.signupLogin')}>
+        <Form.Control
           type="text"
+          placeholder="От 3 до 20 символов"
+          name="username"
+          autoComplete="username"
+          required
+          isInvalid={error}
           value={formik.values.username}
           onChange={formik.handleChange}
           ref={inputRef}
         />
-        <label className="form-label" htmlFor="username">{t('forms.login')}</label>
-      </div>
-      <div className="form-floating mb-4">
-        <input
-          className={inputClass}
-          placeholder={t('forms.password')}
-          id="password"
-          name="password"
+      </FloatingLabel>
+      <FloatingLabel className="mb-3" controlId="password" label={t('forms.password')}>
+        <Form.Control
           type="password"
+          placeholder="Не менее 6 символов"
+          name="password"
+          autoComplete="password"
+          required
+          isInvalid={error}
           value={formik.values.password}
           onChange={formik.handleChange}
         />
-        <label className="form-label" htmlFor="password">{t('forms.password')}</label>
-        {error && <div className="invalid-tooltip">{error}</div>}
-      </div>
-      <button className="w-100 mb-3 btn btn-outline-primary" type="submit">{t('forms.enterBtn')}</button>
-    </form>
+        <Form.Control.Feedback type="invalid" tooltip placement="right">{error}</Form.Control.Feedback>
+      </FloatingLabel>
+      <Button
+        className="w-100 mb-3"
+        variant="outline-primary"
+        type="submit"
+      >
+        {t('forms.enterBtn')}
+      </Button>
+    </Form>
   );
 };
 
