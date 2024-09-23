@@ -24,7 +24,6 @@ const LoginForm = () => {
       try {
         const response = await axios.post(API_ROUTES.login(), values);
         dispatch(logIn(response.data));
-        localStorage.setItem('user', JSON.stringify(response.data));
         navigate('/');
       } catch (e) {
         setError('Неверные имя пользователя или пароль');

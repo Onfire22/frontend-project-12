@@ -30,8 +30,8 @@ const SignupForm = () => {
       const { username, password } = values;
       axios.post(API_ROUTES.signup(), { username, password })
         .then((data) => {
-          localStorage.setItem('user', JSON.stringify(data));
-          dispatch(logIn());
+          localStorage.setItem('token', JSON.stringify(data.token));
+          dispatch(logIn(values));
           navigate('/');
         })
         .catch((e) => {
