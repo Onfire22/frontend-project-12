@@ -8,7 +8,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useSignUpValidation } from '../hooks/validateHooks';
-import { API_ROUTES } from '../routes/routes';
+import { API_ROUTES, ROUTES } from '../routes/routes';
 import { logIn } from '../store/slices/authSlice';
 
 const SignupForm = () => {
@@ -26,21 +26,19 @@ const SignupForm = () => {
     },
     validationSchema: schema,
     validateOnChange: false,
-    onSubmit: (values) => {
+    validateOnBlur: false,
+    onSubmit: async (values, { setFieldError }) => {
       const { username, password } = values;
-      axios.post(API_ROUTES.signup(), { username, password })
-        .then((data) => {
-          localStorage.setItem('token', JSON.stringify(data.token));
-          dispatch(logIn(values));
-          navigate('/');
-        })
-        .catch((e) => {
-          if (e.code) {
-            formik.errors.confirmPassword = 'uniq';
-          } else {
-            formik.errors = e;
-          }
-        });
+      try {
+        const response = await axios.post(API_ROUTES.signup(), { username, password });
+        dispatch(logIn(response.data));
+        navigate(ROUTES.chat);
+      } catch (e) {
+        if (e.status === 409) {
+          setFieldError('confirmPassword', t('forms.errors.userExists'));
+        }
+        formik.errors = e;
+      }
     },
   });
 

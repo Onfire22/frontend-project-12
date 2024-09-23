@@ -7,7 +7,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
-import { API_ROUTES } from '../routes/routes';
+import { API_ROUTES, ROUTES } from '../routes/routes';
 import { logIn } from '../store/slices/authSlice';
 
 const LoginForm = () => {
@@ -26,7 +26,7 @@ const LoginForm = () => {
       try {
         const response = await axios.post(API_ROUTES.login(), values);
         dispatch(logIn(response.data));
-        navigate('/');
+        navigate(ROUTES.chat);
       } catch (e) {
         setError(t('forms.errors.wrongData'));
       }
