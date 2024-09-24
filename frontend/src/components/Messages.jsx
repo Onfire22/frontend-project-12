@@ -21,9 +21,9 @@ const Messages = () => {
       ? <Loader text="сообщений" />
       : (
         <div className="chat-messages overflow-auto px-5" id="messages-box">
-          {!!messages.length && messages.map((message) => {
-            return <Message key={message.id} text={message.text} author={message.author} />;
-          })}
+          {messages.map((message) => (
+            <Message key={message.id} text={message.text} author={message.author} />
+          ))}
         </div>
       )
   );
