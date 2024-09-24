@@ -80,6 +80,7 @@ const Chat = () => {
                 onClick={() => dispatch(openModal({ name: 'add' }))}
               >
                 <img src={addModalIco} alt="add svg" />
+                <span className="visually-hidden">+</span>
               </button>
             </div>
             {!channelsError ? <Channels /> : t('errors.connectErr')}
