@@ -40,7 +40,7 @@ const LoginForm = () => {
   return (
     <Form className="col-12 col-md-6 mt-3 mt-md-0" onSubmit={formik.handleSubmit}>
       <h1 className="text-center mb-4">{t('forms.loginTitle')}</h1>
-      <FloatingLabel className="mb-3" controlId="username" label={t('forms.signupLogin')}>
+      <FloatingLabel className="mb-3" controlId="username" label={t('forms.login')}>
         <Form.Control
           type="text"
           placeholder="От 3 до 20 символов"
