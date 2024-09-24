@@ -18,6 +18,7 @@ const RenameModal = () => {
   const schema = useModalValidation(channels);
   const { t } = useTranslation();
   filter.loadDictionary('ru');
+  filter.loadDictionary('en');
 
   const formik = useFormik({
     initialValues: {
