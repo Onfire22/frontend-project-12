@@ -51,16 +51,17 @@ const RenameModal = () => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <Form.Group className="mb-3" id="name" controlId="name">
+          <Form.Group className="mb-3">
             <Form.Control
               type="text"
               name="name"
+              id="name"
               isInvalid={formik.errors.name}
               ref={inputRef}
               value={formik.values.text}
               onChange={formik.handleChange}
             />
-            <Form.Label className="visually-hidden">Имя канала</Form.Label>
+            <Form.Label className="visually-hidden" htmlFor="name">Имя канала</Form.Label>
             <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
           </Form.Group>
           <div className="d-flex justify-content-end">
