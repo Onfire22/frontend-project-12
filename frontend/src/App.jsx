@@ -8,26 +8,24 @@ import NotFound from './pages/404';
 import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
 
-const App = () => {
-  return (
-    <div className="d-flex flex-column h-100">
-      <Header />
-      <Routes>
-        <Route
-          path={ROUTES.chat}
-          element={(
-            <PrivateRoute>
-              <Chat />
-            </PrivateRoute>
-          )}
-        />
-        <Route path={ROUTES.login} element={<Login />} />
-        <Route path={ROUTES.signup} element={<Signup />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <ToastContainer />
-    </div>
-  );
-};
+const App = () => (
+  <div className="d-flex flex-column h-100">
+    <Header />
+    <Routes>
+      <Route
+        path={ROUTES.chat}
+        element={(
+          <PrivateRoute>
+            <Chat />
+          </PrivateRoute>
+        )}
+      />
+      <Route path={ROUTES.login} element={<Login />} />
+      <Route path={ROUTES.signup} element={<Signup />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+    <ToastContainer />
+  </div>
+);
 
 export default App;
