@@ -14,7 +14,7 @@ const Channel = ({ channel }) => {
     <li className="nav-item w-100">
       <Dropdown className="d-flex" as={ButtonGroup}>
         <Button
-          className="w-100 rounded-0 text-start text-truncate channel-btn"
+          className="w-100 rounded-0 text-start text-truncate"
           variant={active.name === name ? 'secondary' : 'light'}
           type="button"
           onClick={() => dispatch(setActive(channel))}

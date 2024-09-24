@@ -65,7 +65,7 @@ const AddModal = () => {
             <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
           </Form.Group>
           <div className="d-flex justify-content-end">
-            <Button className="me-2 btn-secondary" type="button" onClick={() => dispatch(closeModal())}>{t('modals.cancel')}</Button>
+            <Button className="me-2" variant="secondary" type="button" onClick={() => dispatch(closeModal())}>{t('modals.cancel')}</Button>
             <Button type="submit">{t('modals.submit')}</Button>
           </div>
         </Form>

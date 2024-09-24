@@ -66,8 +66,9 @@ const RenameModal = () => {
           </Form.Group>
           <div className="d-flex justify-content-end">
             <Button
-              className="me-2 btn-secondary"
+              className="me-2"
               type="button"
+              variant="secondary"
               onClick={() => dispatch(closeModal())}
             >
               {t('modals.cancel')}
