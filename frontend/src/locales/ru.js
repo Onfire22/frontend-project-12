@@ -50,7 +50,7 @@ const ru = {
     toasts: {
       channelRename: 'Канал переименован',
       channelAdd: 'Канал создан',
-      channelRemove: 'Канал удален',
+      channelRemove: 'Канал удалён',
     },
     errors: {
       connection: 'Ошибка соединения',
