@@ -13,6 +13,7 @@ const InputForm = () => {
   const dispatch = useDispatch();
   const inputRef = useRef(null);
   filter.loadDictionary('ru');
+  filter.loadDictionary('en');
 
   const handleSubmit = (e) => {
     e.preventDefault();
