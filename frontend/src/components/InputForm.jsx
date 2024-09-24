@@ -1,5 +1,5 @@
 import filter from 'leo-profanity';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { createMessage } from '../store/slices/messagesSlice';
@@ -9,6 +9,7 @@ const InputForm = () => {
   const [text, setText] = useState('');
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const inputRef = useRef(null);
   filter.loadDictionary('ru');
 
   const handleSubmit = (e) => {
@@ -17,6 +18,10 @@ const InputForm = () => {
     dispatch(createMessage(censured));
     setText('');
   };
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   return (
     <form className="py-1 border rounded-2" onSubmit={handleSubmit}>
@@ -27,6 +32,7 @@ const InputForm = () => {
           placeholder={t('chat.input')}
           className="border-0 p-0 ps-2 form-control"
           type="text"
+          ref={inputRef}
           value={text}
           onChange={({ target }) => setText(target.value)}
         />
