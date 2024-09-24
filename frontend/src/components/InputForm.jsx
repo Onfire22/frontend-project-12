@@ -1,5 +1,7 @@
 import filter from 'leo-profanity';
 import { useEffect, useRef, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { createMessage } from '../store/slices/messagesSlice';
@@ -24,27 +26,27 @@ const InputForm = () => {
   }, []);
 
   return (
-    <form className="py-1 border rounded-2" onSubmit={handleSubmit}>
-      <div className="input-group has-validation">
-        <input
-          name="body"
+    <Form className="py-1 rounded-2" onSubmit={handleSubmit}>
+      <Form.Group className="input-group has-validation" controlId="text">
+        <Form.Control
+          type="text"
+          name="text"
           aria-label="Новое сообщение"
           placeholder={t('chat.input')}
-          className="border-0 p-0 ps-2 form-control"
-          type="text"
           ref={inputRef}
           value={text}
           onChange={({ target }) => setText(target.value)}
         />
-        <button
-          type="submit"
-          className="btn btn-group-vertical"
+        <Button
+          className="btn-group-vertical no-hover"
+          variant="outline-dark"
           disabled={text.length === 0}
+          type="submit"
         >
           <img src={sendMessage} alt="send message" />
-        </button>
-      </div>
-    </form>
+        </Button>
+      </Form.Group>
+    </Form>
   );
 };
 

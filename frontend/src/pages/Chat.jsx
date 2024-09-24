@@ -17,7 +17,7 @@ import renderModal from '../helpers/renderModal';
 import filterMessages from '../helpers/filterMessages';
 import addModalIco from '../images/icons/add-modal.svg';
 
-export const socket = io();
+const socket = io();
 
 const Chat = () => {
   const dispatch = useDispatch();

@@ -1,7 +1,7 @@
 import filter from 'leo-profanity';
-import cn from 'classnames';
 import { useFormik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
@@ -14,6 +14,7 @@ import { useModalValidation } from '../hooks/validateHooks';
 const RenameModal = () => {
   const channels = useSelector((state) => state.channels.channels);
   const dispatch = useDispatch();
+  const inputRef = useRef(null);
   const schema = useModalValidation(channels);
   const { t } = useTranslation();
   filter.loadDictionary('ru');
@@ -39,9 +40,9 @@ const RenameModal = () => {
     },
   });
 
-  const inputClasses = cn('mb-2', {
-    'form-control is-invalid': formik.errors.name,
-  });
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   return (
     <Modal centered show="true" onHide={() => dispatch(closeModal())}>
@@ -52,17 +53,24 @@ const RenameModal = () => {
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="mb-3" id="name" controlId="name">
             <Form.Control
-              className={inputClasses}
               type="text"
               name="name"
+              isInvalid={formik.errors.name}
+              ref={inputRef}
               value={formik.values.text}
               onChange={formik.handleChange}
             />
             <Form.Label className="visually-hidden">Имя канала</Form.Label>
-            <div className="invalid-feedback">{formik.errors.name}</div>
+            <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
           </Form.Group>
           <div className="d-flex justify-content-end">
-            <Button className="me-2 btn-secondary" type="button" onClick={() => dispatch(closeModal())}>{t('modals.cancel')}</Button>
+            <Button
+              className="me-2 btn-secondary"
+              type="button"
+              onClick={() => dispatch(closeModal())}
+            >
+              {t('modals.cancel')}
+            </Button>
             <Button type="submit">{t('modals.submit')}</Button>
           </div>
         </Form>

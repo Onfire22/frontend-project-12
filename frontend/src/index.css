@@ -19,3 +19,7 @@
   background-color: #d3d4d5 !important;
   border-color: #c6c7c8 !important;
 }
+
+.no-hover:hover {
+  background-color: inherit !important;
+}

@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import filter from 'leo-profanity';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,10 +40,6 @@ const AddModal = () => {
     },
   });
 
-  const inputClasses = cn('mb-2', {
-    'form-control is-invalid': formik.errors.name,
-  });
-
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -58,15 +53,15 @@ const AddModal = () => {
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="mb-3" id="name" controlId="name">
             <Form.Control
-              className={inputClasses}
               type="text"
               name="name"
+              isInvalid={formik.errors.name}
               ref={inputRef}
               value={formik.values.text}
               onChange={formik.handleChange}
             />
             <Form.Label className="visually-hidden">Имя канала</Form.Label>
-            <div className="invalid-feedback">{formik.errors.name}</div>
+            <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
           </Form.Group>
           <div className="d-flex justify-content-end">
             <Button className="me-2 btn-secondary" type="button" onClick={() => dispatch(closeModal())}>{t('modals.cancel')}</Button>
