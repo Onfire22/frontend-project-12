@@ -28,7 +28,9 @@ const Channel = ({ channel }) => {
               split
               variant={active.name === name ? 'secondary' : 'light'}
               id="dropdown-split-basic"
-            />
+            >
+              <span className="visually-hidden">Управление каналом</span>
+            </Dropdown.Toggle>
           )
         }
         <Dropdown.Menu>
