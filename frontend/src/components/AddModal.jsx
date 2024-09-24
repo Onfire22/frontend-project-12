@@ -27,10 +27,9 @@ const AddModal = () => {
     validateOnChange: false,
     onSubmit: (values) => {
       const censured = filter.clean(values.name);
-      schema.validate(values)
-        .then(() => {
-          dispatch(createChannel(censured))
-            .then(({ payload }) => dispatch(setActive(payload)));
+      dispatch(createChannel(censured))
+        .then(({ payload }) => {
+          dispatch(setActive(payload));
           dispatch(closeModal());
           toast.success(t('toasts.channelAdd'));
         })

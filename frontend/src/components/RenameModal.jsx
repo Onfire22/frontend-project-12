@@ -27,10 +27,9 @@ const RenameModal = () => {
     validateOnChange: false,
     onSubmit: (values) => {
       const censured = filter.clean(values.name);
-      schema.validate(values)
-        .then(() => {
-          dispatch(renameChannel(censured))
-            .then(({ payload }) => dispatch(setActive(payload)));
+      dispatch(renameChannel(censured))
+        .then(({ payload }) => {
+          dispatch(setActive(payload));
           dispatch(closeModal());
           toast.success(t('toasts.channelRename'));
         })
