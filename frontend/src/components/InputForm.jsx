@@ -2,15 +2,17 @@ import filter from 'leo-profanity';
 import { useEffect, useRef, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { createMessage } from '../store/slices/messagesSlice';
+import { useCreateMessageMutation } from '../store/api/messagesApi';
 import sendMessage from '../images/icons/send-message.svg';
 
 const InputForm = () => {
   const [text, setText] = useState('');
+  const { id } = useSelector((state) => state.channels.activeChannel);
+  const author = useSelector((state) => state.auth.username);
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const [makeMessage] = useCreateMessageMutation();
   const inputRef = useRef(null);
   filter.loadDictionary('ru');
   filter.loadDictionary('en');
@@ -18,7 +20,7 @@ const InputForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const censured = filter.clean(text);
-    dispatch(createMessage(censured));
+    makeMessage({ text: censured, id, author });
     setText('');
   };
 

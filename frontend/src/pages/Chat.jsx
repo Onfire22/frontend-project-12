@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { io } from 'socket.io-client';
 import {
-  fetchChannels,
   getChannel,
   handleDeleteChannel,
   handleRenameChannel,
@@ -15,6 +14,7 @@ import Channels from '../components/Channels';
 import Messages from '../components/Messages';
 import renderModal from '../helpers/renderModal';
 import filterMessages from '../helpers/filterMessages';
+import { useFetchMessagesQuery } from '../store/api/messagesApi';
 import addModalIco from '../images/icons/add-modal.svg';
 
 const socket = io();
@@ -23,10 +23,9 @@ const Chat = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { name, id } = useSelector((state) => state.channels.activeChannel);
-  const messages = useSelector((state) => filterMessages(id, state.messages.messages));
+  const { data = [], isError } = useFetchMessagesQuery();
+  const messages = filterMessages(id, data);
   const modalName = useSelector((state) => state.modals.name);
-  const messagesError = useSelector((state) => state.messages.errors);
-  const channelsError = useSelector((state) => state.channels.errors);
 
   const handleMessage = (payload) => {
     dispatch(getMessage(payload));
@@ -45,7 +44,6 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchChannels());
     socket.on('newMessage', (payload) => {
       handleMessage(payload);
     });
@@ -83,7 +81,7 @@ const Chat = () => {
                 <span className="visually-hidden">+</span>
               </button>
             </div>
-            {!channelsError ? <Channels /> : t('errors.connectErr')}
+            {!isError ? <Channels /> : t('errors.connectErr')}
           </div>
           <div className="col p-0 h-100">
             <div className="d-flex flex-column h-100">
@@ -95,7 +93,7 @@ const Chat = () => {
                 </p>
                 <span className="text-muted">{t('chat.messages.message', { count: messages.length })}</span>
               </div>
-              {!messagesError ? <Messages /> : t('errors.connection')}
+              {!isError ? <Messages /> : t('errors.connection')}
               <div className="mt-auto px-5 py-3">
                 <InputForm />
               </div>

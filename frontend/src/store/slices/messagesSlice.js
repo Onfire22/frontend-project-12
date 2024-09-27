@@ -10,61 +10,64 @@ const initialState = {
   errors: null,
 };
 
-export const fetchMessages = createAsyncThunk(
-  'messages/fetchMessages',
-  async (_, {
-    getState,
-  }) => {
-    try {
-      const { token } = getState().auth;
-      const response = await axios.get(API_ROUTES.messages(), {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data;
-    } catch (e) {
-      return e;
-    }
-  },
-);
+// export const fetchMessages = createAsyncThunk(
+//   'messages/fetchMessages',
+//   async (_, {
+//     getState,
+//   }) => {
+//     try {
+//       const { token } = getState().auth;
+//       const response = await axios.get(API_ROUTES.messages(), {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       });
+//       return response.data;
+//     } catch (e) {
+//       return e;
+//     }
+//   },
+// );
 
-export const createMessage = createAsyncThunk(
-  'messages/createMessage',
-  async (payload, {
-    getState,
-  }) => {
-    const { token } = getState().auth;
-    const message = {
-      text: payload,
-      channelId: getState().channels.activeChannel.id,
-      author: getState().auth.username,
-    };
-    await axios.post(API_ROUTES.messages(), message, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  },
-);
+// export const createMessage = createAsyncThunk(
+//   'messages/createMessage',
+//   async (payload, {
+//     getState,
+//   }) => {
+//     const { token } = getState().auth;
+//     const message = {
+//       text: payload,
+//       channelId: getState().channels.activeChannel.id,
+//       author: getState().auth.username,
+//     };
+//     await axios.post(API_ROUTES.messages(), message, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     });
+//   },
+// );
 
 const messagesSlice = createSlice({
   name: 'messages',
   initialState,
   reducers: {
+    getMessages: (state, { payload }) => {
+      state.messages = payload;
+    },
     getMessage: (state, { payload }) => {
       state.messages.push(payload);
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchMessages.fulfilled, (state, { payload }) => {
-        state.messages = payload;
-      })
-      .addCase(fetchMessages.pending, (state) => {
-        state.status = 'pending';
-        state.errors = null;
-      })
+      // .addCase(fetchMessages.fulfilled, (state, { payload }) => {
+      //   state.messages = payload;
+      // })
+      // .addCase(fetchMessages.pending, (state) => {
+      //   state.status = 'pending';
+      //   state.errors = null;
+      // })
       .addCase(handleDeleteChannel, (state, { payload }) => {
         state.messages = state.messages.filter((message) => message.id !== payload.id);
       })
@@ -79,5 +82,5 @@ const messagesSlice = createSlice({
   },
 });
 
-export const { addMessage, getMessage } = messagesSlice.actions;
+export const { getMessages, getMessage } = messagesSlice.actions;
 export default messagesSlice.reducer;

@@ -7,12 +7,15 @@ import { toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { renameChannel, setActive } from '../store/slices/channelsSlice';
+import { setActive } from '../store/slices/channelsSlice';
 import { closeModal } from '../store/slices/modalsSlice';
 import { useModalValidation } from '../hooks/validateHooks';
+import { useRenameChannelMutation } from '../store/api/channelsApi';
 
 const RenameModal = () => {
   const channels = useSelector((state) => state.channels.channels);
+  const currentChannel = useSelector((state) => state.modals.data);
+  const [renameChannel] = useRenameChannelMutation();
   const dispatch = useDispatch();
   const inputRef = useRef(null);
   const schema = useModalValidation(channels);
@@ -28,9 +31,9 @@ const RenameModal = () => {
     validateOnChange: false,
     onSubmit: (values) => {
       const censured = filter.clean(values.name);
-      dispatch(renameChannel(censured))
-        .then(({ payload }) => {
-          dispatch(setActive(payload));
+      renameChannel({ name: censured, id: currentChannel })
+        .then(({ data }) => {
+          dispatch(setActive(data));
           dispatch(closeModal());
           toast.success(t('toasts.channelRename'));
         })

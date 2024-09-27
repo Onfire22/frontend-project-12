@@ -7,9 +7,10 @@ import { toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { createChannel, setActive } from '../store/slices/channelsSlice';
+import { setActive } from '../store/slices/channelsSlice';
 import { closeModal } from '../store/slices/modalsSlice';
 import { useModalValidation } from '../hooks/validateHooks';
+import { useCreateChannelMutation } from '../store/api/channelsApi';
 
 const AddModal = () => {
   const channels = useSelector((state) => state.channels.channels);
@@ -17,6 +18,7 @@ const AddModal = () => {
   const inputRef = useRef(null);
   const schema = useModalValidation(channels);
   const { t } = useTranslation();
+  const [addChannel] = useCreateChannelMutation();
   filter.loadDictionary('ru');
   filter.loadDictionary('en');
 
@@ -28,9 +30,9 @@ const AddModal = () => {
     validateOnChange: false,
     onSubmit: (values) => {
       const censured = filter.clean(values.name);
-      dispatch(createChannel(censured))
-        .then(({ payload }) => {
-          dispatch(setActive(payload));
+      addChannel(censured) // toDo -> async await
+        .then(({ data }) => {
+          dispatch(setActive(data));
           dispatch(closeModal());
           toast.success(t('toasts.channelAdd'));
         })
