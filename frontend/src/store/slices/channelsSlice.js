@@ -58,11 +58,11 @@ export const renameChannel = createAsyncThunk(
     getState,
   }) => {
     const { token } = getState().auth;
-    const { activeChannel } = getState().modals;
+    const { data } = getState().modals;
     const newChannel = {
       name: payload,
     };
-    const response = await axios.patch(API_ROUTES.handleChannel(activeChannel), newChannel, {
+    const response = await axios.patch(API_ROUTES.handleChannel(data), newChannel, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -77,8 +77,8 @@ export const removeChannel = createAsyncThunk(
     getState,
   }) => {
     const { token } = getState().auth;
-    const { activeChannel } = getState().modals;
-    await axios.delete(API_ROUTES.handleChannel(activeChannel), {
+    const { data } = getState().modals;
+    await axios.delete(API_ROUTES.handleChannel(data), {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -10,6 +10,7 @@ const ROUTES = {
   chat: '/',
   login: '/login',
   signup: '/signup',
+  notFound: '*',
 };
 
 export { API_ROUTES, ROUTES };

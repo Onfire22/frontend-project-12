@@ -61,7 +61,7 @@ const AddModal = () => {
               value={formik.values.text}
               onChange={formik.handleChange}
             />
-            <Form.Label className="visually-hidden" htmlFor="name">Имя канала</Form.Label>
+            <Form.Label className="visually-hidden" htmlFor="name">{t('tips.channelName')}</Form.Label>
             <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
           </Form.Group>
           <div className="d-flex justify-content-end">

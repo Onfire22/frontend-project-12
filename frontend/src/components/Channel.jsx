@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -9,6 +10,7 @@ const Channel = ({ channel }) => {
   const { id, name, removable } = channel;
   const dispatch = useDispatch();
   const active = useSelector((state) => state.channels.activeChannel);
+  const { t } = useTranslation();
 
   return (
     <li className="nav-item w-100">
@@ -29,13 +31,13 @@ const Channel = ({ channel }) => {
               variant={active.name === name ? 'secondary' : 'light'}
               id="dropdown-split-basic"
             >
-              <span className="visually-hidden">Управление каналом</span>
+              <span className="visually-hidden">{t('tips.handleChannel')}</span>
             </Dropdown.Toggle>
           )
         }
         <Dropdown.Menu>
-          <Dropdown.Item onClick={() => dispatch(openModal({ name: 'remove', id }))}>Удалить</Dropdown.Item>
-          <Dropdown.Item onClick={() => dispatch(openModal({ name: 'rename', id }))}>Переименовать</Dropdown.Item>
+          <Dropdown.Item onClick={() => dispatch(openModal({ name: 'remove', id }))}>{t('modals.remove')}</Dropdown.Item>
+          <Dropdown.Item onClick={() => dispatch(openModal({ name: 'rename', id }))}>{t('modals.rename')}</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     </li>

@@ -22,7 +22,7 @@ const App = () => (
       />
       <Route path={ROUTES.login} element={<Login />} />
       <Route path={ROUTES.signup} element={<Signup />} />
-      <Route path="*" element={<NotFound />} />
+      <Route path={ROUTES.notFound} element={<NotFound />} />
     </Routes>
     <ToastContainer />
   </div>

@@ -45,7 +45,7 @@ const InputForm = () => {
           type="submit"
         >
           <img src={sendMessage} alt="send message" />
-          <span className="visually-hidden">Отправить</span>
+          <span className="visually-hidden">{t('tips.send')}</span>
         </Button>
       </Form.Group>
     </Form>

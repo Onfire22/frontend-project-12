@@ -55,6 +55,11 @@ const ru = {
     errors: {
       connection: 'Ошибка соединения',
     },
+    tips: {
+      channelName: 'Имя канала',
+      handleChannel: 'Управление каналом',
+      send: 'Отправить',
+    },
   },
 };
 
