@@ -1,21 +1,13 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import Message from './Message';
 import Loader from './Loader';
 import filterMessages from '../helpers/filterMessages';
 import { useFetchMessagesQuery } from '../store/api/messagesApi';
-import { getMessages } from '../store/slices/messagesSlice';
 
 const Messages = () => {
-  const dispatch = useDispatch();
   const { id } = useSelector((state) => state.channels.activeChannel);
   const { data = [], isLoading } = useFetchMessagesQuery();
   const messages = filterMessages(id, data);
-
-  useEffect(() => {
-    dispatch(getMessages(data));
-    // eslint-disable-next-line
-  }, []);
 
   return (
     isLoading
