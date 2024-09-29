@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { io } from 'socket.io-client';
 import { openModal } from '../store/slices/modalsSlice';
 import InputForm from '../components/InputForm';
 import Channels from '../components/Channels';
@@ -12,9 +11,7 @@ import { useFetchMessagesQuery, messagesApi } from '../store/api/messagesApi';
 import { channelsApi } from '../store/api/channelsApi';
 import addModalIco from '../images/icons/add-modal.svg';
 
-const socket = io();
-
-const Chat = () => {
+const Chat = ({ socket }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { name, id } = useSelector((state) => state.channels.activeChannel);

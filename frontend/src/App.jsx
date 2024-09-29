@@ -8,7 +8,7 @@ import NotFound from './pages/404';
 import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
 
-const App = () => (
+const App = ({ socket }) => (
   <div className="d-flex flex-column h-100">
     <Header />
     <Routes>
@@ -16,7 +16,7 @@ const App = () => (
         path={ROUTES.chat}
         element={(
           <PrivateRoute>
-            <Chat />
+            <Chat socket={socket} />
           </PrivateRoute>
         )}
       />

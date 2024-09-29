@@ -14,8 +14,6 @@ const InputForm = () => {
   const { t } = useTranslation();
   const [makeMessage] = useCreateMessageMutation();
   const inputRef = useRef(null);
-  filter.loadDictionary('ru');
-  filter.loadDictionary('en');
 
   const handleSubmit = (e) => {
     e.preventDefault();
