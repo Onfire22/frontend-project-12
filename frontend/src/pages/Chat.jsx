@@ -2,19 +2,14 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { io } from 'socket.io-client';
-import {
-  getChannel,
-  handleDeleteChannel,
-  handleRenameChannel,
-} from '../store/slices/channelsSlice';
-import { getMessage } from '../store/slices/messagesSlice';
 import { openModal } from '../store/slices/modalsSlice';
 import InputForm from '../components/InputForm';
 import Channels from '../components/Channels';
 import Messages from '../components/Messages';
 import renderModal from '../helpers/renderModal';
 import filterMessages from '../helpers/filterMessages';
-import { useFetchMessagesQuery } from '../store/api/messagesApi';
+import { useFetchMessagesQuery, messagesApi } from '../store/api/messagesApi';
+import { channelsApi } from '../store/api/channelsApi';
 import addModalIco from '../images/icons/add-modal.svg';
 
 const socket = io();
@@ -27,40 +22,57 @@ const Chat = () => {
   const messages = filterMessages(id, data);
   const modalName = useSelector((state) => state.modals.name);
 
-  const handleMessage = (payload) => {
-    dispatch(getMessage(payload));
+  const createMessage = (payload) => {
+    dispatch(messagesApi.util.updateQueryData('fetchMessages', undefined, (draft) => {
+      draft.push(payload);
+    }));
   };
 
-  const handleChannel = (payload) => {
-    dispatch(getChannel(payload));
+  const createChannel = (payload) => {
+    dispatch(channelsApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
+      draft.push(payload);
+    }));
   };
 
-  const handleDelete = (payload) => {
-    dispatch(handleDeleteChannel(payload));
+  const removeChannel = (payload) => {
+    dispatch(channelsApi.util.updateQueryData('fetchChannels', undefined, (draft) => (
+      draft.filter((channel) => channel.id !== payload.id)
+    )));
   };
 
-  const handleRename = (payload) => {
-    dispatch(handleRenameChannel(payload));
+  const renameChannel = (payload) => {
+    dispatch(channelsApi.util.updateQueryData('fetchChannels', undefined, (draft) => (
+      draft.map((channel) => {
+        if (payload.id === channel.id) {
+          const newChannel = {
+            ...channel,
+            name: payload.name,
+          };
+          return newChannel;
+        }
+        return channel;
+      })
+    )));
   };
 
   useEffect(() => {
     socket.on('newMessage', (payload) => {
-      handleMessage(payload);
+      createMessage(payload);
     });
     socket.on('newChannel', (payload) => {
-      handleChannel(payload);
+      createChannel(payload);
     });
     socket.on('removeChannel', (payload) => {
-      handleDelete(payload);
+      removeChannel(payload);
     });
     socket.on('renameChannel', (payload) => {
-      handleRename(payload);
+      renameChannel(payload);
     });
     return () => {
-      socket.off('newMessage', handleMessage);
-      socket.off('newChannel', handleChannel);
-      socket.off('removeChannel', handleDelete);
-      socket.off('renameChannel', handleRename);
+      socket.off('newMessage', createMessage);
+      socket.off('newChannel', createChannel);
+      socket.off('removeChannel', removeChannel);
+      socket.off('renameChannel', renameChannel);
     };
     // eslint-disable-next-line
   }, []);

@@ -1,18 +1,9 @@
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 import { useFetchChannelsQuery } from '../store/api/channelsApi';
-import { getChannels } from '../store/slices/channelsSlice';
 import Channel from './Channel';
 import Loader from './Loader';
 
 const Channels = () => {
-  const dispatch = useDispatch();
   const { data = [], isLoading } = useFetchChannelsQuery();
-
-  useEffect(() => {
-    dispatch(getChannels(data));
-    // eslint-disable-next-line
-  }, []);
 
   return (
     isLoading

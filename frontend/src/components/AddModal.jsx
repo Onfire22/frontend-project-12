@@ -30,7 +30,7 @@ const AddModal = () => {
     validateOnChange: false,
     onSubmit: (values) => {
       const censured = filter.clean(values.name);
-      addChannel(censured) // toDo -> async await
+      addChannel(censured)
         .then(({ data }) => {
           dispatch(setActive(data));
           dispatch(closeModal());
