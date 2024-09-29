@@ -10,10 +10,10 @@ import Modal from 'react-bootstrap/Modal';
 import { setActive } from '../store/slices/channelsSlice';
 import { closeModal } from '../store/slices/modalsSlice';
 import { useModalValidation } from '../hooks/validateHooks';
-import { useRenameChannelMutation } from '../store/api/channelsApi';
+import { useRenameChannelMutation, useFetchChannelsQuery } from '../store/api/channelsApi';
 
 const RenameModal = () => {
-  const channels = useSelector((state) => state.channels.channels);
+  const { data: channels } = useFetchChannelsQuery();
   const currentChannel = useSelector((state) => state.modals.data);
   const [renameChannel] = useRenameChannelMutation();
   const dispatch = useDispatch();

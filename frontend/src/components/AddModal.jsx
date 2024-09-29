@@ -1,6 +1,6 @@
 import filter from 'leo-profanity';
 import { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -10,10 +10,10 @@ import Modal from 'react-bootstrap/Modal';
 import { setActive } from '../store/slices/channelsSlice';
 import { closeModal } from '../store/slices/modalsSlice';
 import { useModalValidation } from '../hooks/validateHooks';
-import { useCreateChannelMutation } from '../store/api/channelsApi';
+import { useCreateChannelMutation, useFetchChannelsQuery } from '../store/api/channelsApi';
 
 const AddModal = () => {
-  const channels = useSelector((state) => state.channels.channels);
+  const { data: channels } = useFetchChannelsQuery();
   const dispatch = useDispatch();
   const inputRef = useRef(null);
   const schema = useModalValidation(channels);
