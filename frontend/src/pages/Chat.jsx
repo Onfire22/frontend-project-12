@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { openModal } from '../store/slices/modalsSlice';
@@ -19,25 +19,25 @@ const Chat = ({ socket }) => {
   const messages = filterMessages(id, data);
   const modalName = useSelector((state) => state.modals.name);
 
-  const createMessage = (payload) => {
+  const createMessage = useCallback((payload) => {
     dispatch(messagesApi.util.updateQueryData('fetchMessages', undefined, (draft) => {
       draft.push(payload);
     }));
-  };
+  }, [dispatch]);
 
-  const createChannel = (payload) => {
+  const createChannel = useCallback((payload) => {
     dispatch(channelsApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
       draft.push(payload);
     }));
-  };
+  }, [dispatch]);
 
-  const removeChannel = (payload) => {
-    dispatch(channelsApi.util.updateQueryData('fetchChannels', undefined, (draft) => (
-      draft.filter((channel) => channel.id !== payload.id)
-    )));
-  };
+  const removeChannel = useCallback((payload) => {
+    dispatch(channelsApi.util.updateQueryData('fetchChannels', undefined, (draft) => {
+      draft.push(payload);
+    }));
+  }, [dispatch]);
 
-  const renameChannel = (payload) => {
+  const renameChannel = useCallback((payload) => {
     dispatch(channelsApi.util.updateQueryData('fetchChannels', undefined, (draft) => (
       draft.map((channel) => {
         if (payload.id === channel.id) {
@@ -50,7 +50,7 @@ const Chat = ({ socket }) => {
         return channel;
       })
     )));
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     socket.on('newMessage', (payload) => {
@@ -71,8 +71,7 @@ const Chat = ({ socket }) => {
       socket.off('removeChannel', removeChannel);
       socket.off('renameChannel', renameChannel);
     };
-    // eslint-disable-next-line
-  }, []);
+  }, [createChannel, removeChannel, renameChannel, createMessage, socket]);
 
   return (
     <>
