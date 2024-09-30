@@ -60,6 +60,11 @@ const ru = {
       handleChannel: 'Управление каналом',
       send: 'Отправить',
     },
+    loader: {
+      loading: 'Загрузка',
+      messages: 'сообщений...',
+      channels: 'каналов...',
+    },
   },
 };
 
