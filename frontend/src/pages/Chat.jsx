@@ -37,6 +37,12 @@ const Chat = ({ socket }) => {
     }));
   }, [dispatch]);
 
+  const removeMessage = useCallback((payload) => {
+    dispatch(messagesApi.util.updateQueryData('fetchMessages', undefined, (draft) => {
+      return draft.filter((message) => message.id !== payload.id);
+    }));
+  }, [dispatch]);
+
   const renameChannel = useCallback((payload) => {
     dispatch(channelsApi.util.updateQueryData('fetchChannels', undefined, (draft) => (
       draft.map((channel) => {
@@ -56,6 +62,9 @@ const Chat = ({ socket }) => {
     socket.on('newMessage', (payload) => {
       createMessage(payload);
     });
+    socket.on('removeMessage', (payload) => {
+      removeMessage(payload);
+    });
     socket.on('newChannel', (payload) => {
       createChannel(payload);
     });
@@ -71,7 +80,7 @@ const Chat = ({ socket }) => {
       socket.off('removeChannel', removeChannel);
       socket.off('renameChannel', renameChannel);
     };
-  }, [createChannel, removeChannel, renameChannel, createMessage, socket]);
+  }, [createChannel, removeChannel, renameChannel, createMessage, removeMessage, socket]);
 
   return (
     <>

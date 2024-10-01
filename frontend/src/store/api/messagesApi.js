@@ -25,10 +25,21 @@ export const messagesApi = createApi({
           channelId: payload.id,
           author: payload.author,
         },
+        invalidatesTags: ['Messages'],
+      }),
+    }),
+    removeMessage: builder.mutation({
+      query: (payload) => ({
+        url: payload,
+        method: 'DELETE',
       }),
       invalidatesTags: ['Messages'],
     }),
   }),
 });
 
-export const { useFetchMessagesQuery, useCreateMessageMutation } = messagesApi;
+export const {
+  useFetchMessagesQuery,
+  useCreateMessageMutation,
+  useRemoveMessageMutation,
+} = messagesApi;
