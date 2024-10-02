@@ -21,7 +21,7 @@ export const messagesApi = createApi({
       query: (payload) => ({
         method: 'POST',
         body: {
-          text: payload.text,
+          body: payload.body,
           channelId: payload.id,
           author: payload.author,
         },
@@ -35,6 +35,16 @@ export const messagesApi = createApi({
       }),
       invalidatesTags: ['Messages'],
     }),
+    renameMessage: builder.mutation({
+      query: (payload) => ({
+        url: payload.id,
+        method: 'PATCH',
+        body: {
+          body: payload.text,
+        },
+      }),
+      invalidatesTags: ['Messages'],
+    }),
   }),
 });
 
@@ -42,4 +52,5 @@ export const {
   useFetchMessagesQuery,
   useCreateMessageMutation,
   useRemoveMessageMutation,
+  useRenameMessageMutation,
 } = messagesApi;

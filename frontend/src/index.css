@@ -30,9 +30,22 @@
   justify-content: space-between;
 }
 
-.message-trash {
+.message_controls-button {
   cursor: pointer;
   background-color: inherit;
   border: 1px solid #d3d4d5;
   border-radius: 5px;
+}
+
+.message_controls-input {
+  border: 1px solid #d3d4d5;
+  border-radius: 5px;
+}
+
+.message_controls-input:focus-visible {
+  outline: none;
+}
+
+.message_controls-button:disabled {
+  opacity: 0.5;
 }

@@ -38,9 +38,24 @@ const Chat = ({ socket }) => {
   }, [dispatch]);
 
   const removeMessage = useCallback((payload) => {
-    dispatch(messagesApi.util.updateQueryData('fetchMessages', undefined, (draft) => {
-      return draft.filter((message) => message.id !== payload.id);
-    }));
+    dispatch(messagesApi.util.updateQueryData('fetchMessages', undefined, (draft) => (
+      draft.filter((message) => message.id !== payload.id)
+    )));
+  }, [dispatch]);
+
+  const renameMessage = useCallback((payload) => {
+    dispatch(messagesApi.util.updateQueryData('fetchMessages', undefined, (draft) => (
+      draft.map((message) => {
+        if (payload.id === message.id) {
+          const newMessage = {
+            ...message,
+            text: payload.body,
+          };
+          return newMessage;
+        }
+        return message;
+      })
+    )));
   }, [dispatch]);
 
   const renameChannel = useCallback((payload) => {
@@ -65,6 +80,9 @@ const Chat = ({ socket }) => {
     socket.on('removeMessage', (payload) => {
       removeMessage(payload);
     });
+    socket.on('renameMessage', (payload) => {
+      renameMessage(payload);
+    });
     socket.on('newChannel', (payload) => {
       createChannel(payload);
     });
@@ -76,11 +94,21 @@ const Chat = ({ socket }) => {
     });
     return () => {
       socket.off('newMessage', createMessage);
+      socket.off('removeMessage', removeMessage);
+      socket.off('renameMessage', renameMessage);
       socket.off('newChannel', createChannel);
       socket.off('removeChannel', removeChannel);
       socket.off('renameChannel', renameChannel);
     };
-  }, [createChannel, removeChannel, renameChannel, createMessage, removeMessage, socket]);
+  }, [
+    createChannel,
+    removeChannel,
+    renameChannel,
+    createMessage,
+    removeMessage,
+    renameMessage,
+    socket,
+  ]);
 
   return (
     <>

@@ -25,7 +25,7 @@ const Messages = () => {
       : (
         <div className="chat-messages overflow-auto px-5" id="messages-box" ref={messagesRef}>
           {messages.map((message) => (
-            <Message key={message.id} text={message.text} author={message.author} id={message.id} />
+            <Message key={message.id} text={message.body} author={message.author} id={message.id} />
           ))}
         </div>
       )

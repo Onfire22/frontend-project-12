@@ -18,7 +18,7 @@ const InputForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const censured = filter.clean(text);
-    makeMessage({ text: censured, id, author });
+    makeMessage({ body: censured, id, author });
     setText('');
   };
 
