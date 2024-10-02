@@ -6,13 +6,21 @@
 ## Installation
 
 ```
-npm ci
+git clone git@github.com:Onfire22/frontend-project-12.git
 
+cd frontend-project-12
+
+npm ci
 ```
 
 ### Description
 
 Final project of the course frontend developer. Online chat, analog of Slack.
+Features:
+
+* online chat
+* creating new channels
+* ediditng and removing channels, messages
 
 ### Technology stack
 
